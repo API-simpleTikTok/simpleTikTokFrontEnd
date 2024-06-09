@@ -11,19 +11,6 @@
       <div class="tab-ctn">
         <div class="tabs" ref="tabs">
           <div class="tab" :class="{ active: index === 0 }" @click.stop="change(0)">
-            <span>热点</span>
-          </div>
-          <div class="tab" :class="{ active: index === 1 }" @click.stop="change(1)">
-            <span>长视频</span>
-          </div>
-          <div class="tab" :class="{ active: index === 2 }" @click.stop="change(2)">
-            <span>关注</span>
-            <img src="../../../assets/img/icon/live.webp" class="tab2-img" />
-          </div>
-          <div class="tab" :class="{ active: index === 3 }" @click.stop="change(3)">
-            <span>经验</span>
-          </div>
-          <div class="tab" :class="{ active: index === 4 }" @click.stop="change(4)">
             <span>推荐</span>
           </div>
         </div>
@@ -39,6 +26,7 @@
     <Loading :style="loadingStyle" class="loading" style="width: 40rem" :is-full-screen="false" />
   </div>
 </template>
+
 <script>
 import Loading from '../../../components/Loading.vue'
 import bus from '../../../utils/bus'
@@ -150,46 +138,28 @@ export default {
     bus.off(this.name + '-end', this.end)
   },
 
-  methods: {
-    change(index) {
-      this.$emit('update:index', index)
-      _css(this.indicatorRef, 'transition-duration', `300ms`)
-      _css(this.indicatorRef, 'left', this.lefts[index] + 'px')
-    },
-    initTabs() {
-      let tabs = this.$refs.tabs
-      this.indicatorRef = this.$refs.indicator
-      let indicatorWidth = _css(this.indicatorRef, 'width')
-      for (let i = 0; i < tabs.children.length; i++) {
-        let item = tabs.children[i]
-        let tabWidth = _css(item, 'width')
-        this.lefts.push(
-          item.getBoundingClientRect().x -
-            tabs.children[0].getBoundingClientRect().x +
-            (tabWidth * 0.5 - indicatorWidth / 2)
-        )
-      }
-      this.indicatorSpace = this.lefts[1] - this.lefts[0]
-      _css(this.indicatorRef, 'transition-duration', `300ms`)
-      _css(this.indicatorRef, 'left', this.lefts[this.index] + 'px')
-    },
-    move(e) {
-      _css(this.indicatorRef, 'transition-duration', `0ms`)
-      _css(
-        this.indicatorRef,
-        'left',
-        this.lefts[this.index] - e / (this.baseStore.bodyWidth / this.indicatorSpace) + 'px'
-      )
-    },
-    end(index) {
-      this.moveY = 0
-      _css(this.indicatorRef, 'transition-duration', `300ms`)
-      _css(this.indicatorRef, 'left', this.lefts[index] + 'px')
-      setTimeout(() => {
-        _css(this.indicatorRef, 'transition-duration', `0ms`)
-      }, 300)
-    }
+methods: {
+  change(index) {
+    this.$emit('update:index', index);
+    _css(this.indicatorRef, 'transition-duration', `300ms`);
+    _css(this.indicatorRef, 'left', this.lefts[index] + 'px');
+  },
+  initTabs() {
+    let tabs = this.$refs.tabs;
+    this.indicatorRef = this.$refs.indicator;
+    let indicatorWidth = _css(this.indicatorRef, 'width');
+    let item = tabs.children[0];
+    let tabWidth = _css(item, 'width');
+    this.lefts = [
+      item.getBoundingClientRect().x -
+      tabs.children[0].getBoundingClientRect().x +
+      (tabWidth * 0.5 - indicatorWidth / 2)
+    ];
+    _css(this.indicatorRef, 'transition-duration', `300ms`);
+    _css(this.indicatorRef, 'left', this.lefts[0] + 'px');
   }
+}
+
 }
 </script>
 
@@ -206,24 +176,6 @@ export default {
   transition: all 0.3s;
   font-weight: bold;
 
-  .notice {
-    opacity: 0;
-    top: 0;
-    position: absolute;
-    width: 100vw;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .loading {
-    opacity: 0;
-    top: 7rem;
-    right: 7rem;
-    position: absolute;
-  }
-
   .toolbar {
     z-index: 2;
     position: relative;
@@ -237,36 +189,20 @@ export default {
     align-items: center;
 
     .tab-ctn {
-      width: 80%;
-      position: relative;
+      width: 100%; /* 使用100%宽度确保整个容器可以水平居中 */
+      display: flex;
+      justify-content: center; /* 水平居中子元素 */
 
       .tabs {
-        display: flex;
-        justify-content: space-between;
+        position: relative;
+        display: inline-flex; /* 使.tabs的大小正好包裹其内容 */
 
         .tab {
           transition: color 0.3s;
           color: rgba(white, 0.7);
-          position: relative;
           font-size: 17rem;
           cursor: pointer;
-
-          .tab1-img {
-            position: absolute;
-            @width: 12rem;
-            width: @width;
-            height: @width;
-            margin-left: 4rem;
-            transition: all 0.3s;
-            // margin-top: 7rem;
-          }
-
-          .tab2-img {
-            position: absolute;
-            height: 15rem;
-            left: 24rem;
-            top: -5rem;
-          }
+          margin: 0 10px; /* 可选：为标签添加一些外边距 */
 
           &.active {
             color: white;
@@ -275,14 +211,14 @@ export default {
       }
 
       .indicator {
-        //transition: left .3s;
         position: absolute;
         bottom: -6rem;
         height: 2.6rem;
-        width: 26rem;
-        //width: calc(100% / 5);
+        width: 26rem; /* 指示器宽度 */
         background: #fff;
         border-radius: 5rem;
+        transform: translateX(-50%); /* 将指示器向左移动其宽度的一半 */
+        left: 50%; /* 将指示器的起始点设置在容器的中心 */
       }
     }
 
@@ -292,12 +228,17 @@ export default {
     }
   }
 
-  .mask {
-    top: 0;
+  .notice, .loading {
+    opacity: 0;
     position: absolute;
-    width: 100vw;
-    height: calc(var(--vh, 1vh) * 100);
-    background: #00000066;
+    top: 7rem;
+    right: 7rem;
+    transition: opacity 0.3s;
+  }
+
+  .loading {
+    right: 7rem;
   }
 }
+
 </style>

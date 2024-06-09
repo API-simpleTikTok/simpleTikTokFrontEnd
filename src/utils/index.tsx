@@ -6,7 +6,7 @@ import Loading from '../components/Loading.vue'
 import { IMG_URL, IS_DEV, IS_GITEE_PAGES } from '@/config'
 import NoticeDialog from '../components/dialog/NoticeDialog.vue'
 import { ArchiveReader, libarchiveWasm } from 'libarchive-wasm'
-import SlideUser from '@/components/slide/SlideUser.vue'
+// import SlideUser from '@/components/slide/SlideUser.vue'
 import BaseVideo from '@/components/slide/BaseVideo.vue'
 
 export function _storageSet(key, value) {
@@ -418,7 +418,7 @@ export function slideItemRender(props) {
       //   node = <SlideAlbum isPlay={play} index={index} position={{ uniqueId, index }} {...props} />
       //   break
       case 'user':
-        node = <SlideUser {...props} />
+        // node = <SlideUser {...props} />
         break
       case 'send-video':
         node = <video src={item.src} style="height:100%;" />

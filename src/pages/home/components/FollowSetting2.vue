@@ -21,13 +21,13 @@
         <div class="l-row">
           <div class="left">不让TA看</div>
           <div class="right">
-            <switches v-model="switches1" theme="bootstrap" color="success"></switches>
+            <!-- <switches v-model="switches1" theme="bootstrap" color="success"></switches> -->
           </div>
         </div>
         <div class="l-row">
           <div class="left">在关注列表中置顶</div>
           <div class="right">
-            <switches v-model="switches1" theme="bootstrap" color="success"></switches>
+            <!-- <switches v-model="switches1" theme="bootstrap" color="success"></switches> -->
           </div>
         </div>
         <div class="l-row" @click="cancel((e) => $emit('cancelFollow'))">
@@ -42,7 +42,7 @@
 </template>
 <script>
 import FromBottomDialog from '../../../components/dialog/FromBottomDialog'
-import Switches from '../../message/components/swtich/switches'
+// import Switches from '../../message/components/swtich/switches'
 import { DefaultUser } from '@/utils/const_var'
 import { _getUserDouyinId } from '@/utils'
 
@@ -50,7 +50,7 @@ export default {
   name: 'FollowSetting',
   components: {
     FromBottomDialog,
-    Switches
+    // Switches
   },
   props: {
     currentItem: {

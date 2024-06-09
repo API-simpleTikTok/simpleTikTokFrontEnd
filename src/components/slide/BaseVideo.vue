@@ -2,11 +2,12 @@
   <div class="video-wrapper" ref="videoWrapper" :class="positionName">
     <Loading v-if="state.loading" style="position: absolute" />
     <!--    <video :src="item.video + '?v=123'"-->
+        <!-- video 元素用于展示视频内容，其源地址从 item.video.play_addr.url_list[0] 获取 -->
     <video
       :src="item.video.play_addr.url_list[0]"
       :poster="poster"
       ref="videoEl"
-      :muted="state.isMuted"
+      :muted="false"
       preload="true"
       loop
       x5-video-player-type="h5-page"
@@ -21,36 +22,13 @@
     </video>
     <Icon icon="fluent:play-28-filled" class="pause-icon" v-if="!isPlaying" />
     <div class="float">
-      <template v-if="isLive">
-        <div class="living">点击进入直播间</div>
-        <ItemDesc :is-live="true" v-model:item="state.localItem" :position="position" />
-      </template>
-      <template v-else>
+
         <div :style="{ opacity: state.isMove ? 0 : 1 }" class="normal">
-          <template v-if="!state.commentVisible">
+          <!-- <template v-if="!state.commentVisible"> -->
             <ItemToolbar v-model:item="state.localItem" />
-            <ItemDesc v-model:item="state.localItem" />
-          </template>
-          <div v-if="isMy" class="comment-status">
-            <div class="comment">
-              <div class="type-comment">
-                <img src="../../assets/img/icon/head-image.jpeg" alt="" class="avatar" />
-                <div class="right">
-                  <p>
-                    <span class="name">zzzzz</span>
-                    <span class="time">2020-01-20</span>
-                  </p>
-                  <p class="text">北京</p>
-                </div>
-              </div>
-              <transition-group name="comment-status" tag="div" class="loveds">
-                <div class="type-loved" :key="i" v-for="i in state.test">
-                  <img src="../../assets/img/icon/head-image.jpeg" alt="" class="avatar" />
-                  <img src="../../assets/img/icon/love.svg" alt="" class="loved" />
-                </div>
-              </transition-group>
-            </div>
-          </div>
+            <!-- <ItemDesc v-model:item="state.localItem" /> -->
+          <!-- </template> -->
+         
         </div>
         <div
           class="progress"
@@ -71,7 +49,6 @@
             <div class="point"></div>
           </template>
         </div>
-      </template>
     </div>
   </div>
 </template>
@@ -111,28 +88,15 @@ const props = defineProps({
       return true
     }
   },
-  isMy: {
-    type: Boolean,
-    default: () => {
-      return false
-    }
-  },
-  isLive: {
-    type: Boolean,
-    default: () => {
-      return false
-    }
-  }
+
+
 })
 
 provide(
   'isPlaying',
   computed(() => isPlaying)
 )
-provide(
-  'isMuted',
-  computed(() => state.isMuted)
-)
+
 provide(
   'position',
   computed(() => props.position)
@@ -147,7 +111,7 @@ const progressEl = $ref<HTMLDivElement>()
 let state = reactive({
   loading: false,
   paused: false,
-  isMuted: window.isMuted,
+//   isMuted: window.isMuted,
   status: props.isPlay ? SlideItemPlayStatus.Play : SlideItemPlayStatus.Pause,
   duration: 0,
   step: 0,
@@ -166,7 +130,7 @@ let state = reactive({
     width: 0
   },
   videoScreenHeight: 0,
-  commentVisible: false
+//   commentVisible: false
 })
 const poster = $computed(() => {
   return _checkImgUrl(props.item.video.poster ?? props.item.video.cover.url_list[0])
@@ -253,91 +217,27 @@ onMounted(() => {
   // console.log('mounted')
   // bus.off('singleClickBroadcast')
   bus.on(EVENT_KEY.SINGLE_CLICK_BROADCAST, click)
-  bus.on(EVENT_KEY.DIALOG_MOVE, onDialogMove)
-  bus.on(EVENT_KEY.DIALOG_END, onDialogEnd)
-  bus.on(EVENT_KEY.OPEN_COMMENTS, onOpenComments)
-  bus.on(EVENT_KEY.CLOSE_COMMENTS, onCloseComments)
-  bus.on(EVENT_KEY.OPEN_SUB_TYPE, onOpenSubType)
-  bus.on(EVENT_KEY.CLOSE_SUB_TYPE, onCloseSubType)
+//   bus.on(EVENT_KEY.DIALOG_MOVE, onDialogMove)
+//   bus.on(EVENT_KEY.DIALOG_END, onDialogEnd)
 
-  bus.on(EVENT_KEY.REMOVE_MUTED, removeMuted)
+//   bus.on(EVENT_KEY.OPEN_SUB_TYPE, onOpenSubType)
+//   bus.on(EVENT_KEY.CLOSE_SUB_TYPE, onCloseSubType)
 })
 
 onUnmounted(() => {
   // console.log('unmounted')
   bus.off(EVENT_KEY.SINGLE_CLICK_BROADCAST, click)
-  bus.off(EVENT_KEY.DIALOG_MOVE, onDialogMove)
-  bus.off(EVENT_KEY.DIALOG_END, onDialogEnd)
-  bus.off(EVENT_KEY.OPEN_COMMENTS, onOpenComments)
-  bus.off(EVENT_KEY.CLOSE_COMMENTS, onCloseComments)
-  bus.off(EVENT_KEY.OPEN_SUB_TYPE, onOpenSubType)
-  bus.off(EVENT_KEY.CLOSE_SUB_TYPE, onCloseSubType)
-  bus.off(EVENT_KEY.REMOVE_MUTED, removeMuted)
 })
 
-function removeMuted() {
-  state.isMuted = false
-}
-
-function onOpenSubType() {
-  state.commentVisible = true
-}
-
-function onCloseSubType() {
-  state.commentVisible = false
-}
-
-function onDialogMove({ tag, e }) {
-  if (state.commentVisible && tag === 'comment') {
-    _css(videoEl, 'transition-duration', `0ms`)
-    _css(videoEl, 'height', `calc(var(--vh, 1vh) * 30 + ${e}px)`)
-  }
-}
-
-function onDialogEnd({ tag, isClose }) {
-  if (state.commentVisible && tag === 'comment') {
-    console.log('isClose', isClose)
-    _css(videoEl, 'transition-duration', `300ms`)
-    if (isClose) {
-      state.commentVisible = false
-      _css(videoEl, 'height', '100%')
-    } else {
-      _css(videoEl, 'height', 'calc(var(--vh, 1vh) * 30)')
-    }
-  }
-}
-
-function onOpenComments(id) {
-  if (id === props.item.aweme_id) {
-    _css(videoEl, 'transition-duration', `300ms`)
-    _css(videoEl, 'height', 'calc(var(--vh, 1vh) * 30)')
-    state.commentVisible = true
-  }
-}
-
-function onCloseComments() {
-  if (state.commentVisible) {
-    _css(videoEl, 'transition-duration', `300ms`)
-    _css(videoEl, 'height', '100%')
-    state.commentVisible = false
-  }
-}
 
 function click({ uniqueId, index, type }) {
   if (props.position.uniqueId === uniqueId && props.position.index === index) {
     if (type === EVENT_KEY.ITEM_TOGGLE) {
-      if (props.isLive) {
-        pause()
-        bus.emit(EVENT_KEY.NAV, {
-          path: '/home/live',
-          query: { id: props.item.aweme_id }
-        })
-      } else {
         if (state.status === SlideItemPlayStatus.Play) {
           pause()
         } else {
           play()
-        }
+
       }
     }
     if (type === EVENT_KEY.ITEM_STOP) {

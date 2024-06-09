@@ -4,7 +4,7 @@
       <span v-if="!isRefresh1" :class="{ active: currentTab === 1 }">首页</span>
       <img v-if="isRefresh1" src="../assets/img/icon/refresh1.png" alt="" class="refresh" />
     </div>
-    <div class="l-button" @click="refresh(2)">
+    <div class="l-button" >
       <span v-if="!isRefresh2" :class="{ active: currentTab === 2 }">商城</span>
       <img v-if="isRefresh2" src="../assets/img/icon/refresh1.png" alt="" class="refresh" />
     </div>
@@ -13,7 +13,7 @@
         <img src="../assets/img/icon/add-light.png" alt="" class="add" />
       </div>
     </div>
-    <div class="l-button" @click="tab(4)">
+    <div class="l-button" >
       <span :class="{ active: currentTab === 4 }">消息</span>
       <div class="badge">2</div>
     </div>

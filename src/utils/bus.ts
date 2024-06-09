@@ -33,13 +33,29 @@ export default {
   offAll() {
     this.eventMap = new Map()
   },
-  emit(eventType, val?) {
-    // console.log('emit', eventType, val)
+  /*emit(eventType, val?) {
+    console.log('emit', eventType, val)//emit CURRENT_ITEM 
+    //
     const cbs = this.eventMap.get(eventType)
     if (cbs) {
       cbs.map((cb) => cb(val))
     }
-  }
+
+  }*/
+  emit(eventType, val?) {
+    console.log('emit', eventType, val);
+    const cbs = this.eventMap.get(eventType);
+    if (cbs) {
+        cbs.map((cb) => {
+            if (typeof cb !== 'function') {
+                console.log('Callback is not a function for event type:', eventType, cb);
+            } else {
+                cb(val);
+            }
+        });
+    }
+}
+
 }
 
 export const EVENT_KEY = {

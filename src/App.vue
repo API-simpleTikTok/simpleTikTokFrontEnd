@@ -32,21 +32,23 @@ watch(
   (to, from) => {
     store.setMaskDialog({ state: false, mode: store.maskDialogMode })
     //底部tab的按钮，跳转是不需要用动画的
+    // 决定是否需要过渡动画
     let noAnimation = [
       '/',
       '/home',
       '/slide',
       '/me',
-      '/shop',
-      '/message',
+    //   '/shop',
+    //   '/message',
       '/publish',
-      '/home/live',
+    //   '/home/live',
       'slide',
-      '/test'
+    //   '/test'
     ]
     if (noAnimation.indexOf(from) !== -1 && noAnimation.indexOf(to) !== -1) {
       return (transitionName.value = '')
     }
+    // /// 根据路由深度决定动画方向
     const toDepth = routes.findIndex((v: RouteRecordRaw) => v.path === to)
     const fromDepth = routes.findIndex((v: RouteRecordRaw) => v.path === from)
     transitionName.value = toDepth > fromDepth ? 'go' : 'back'
@@ -54,6 +56,7 @@ watch(
 )
 
 function resetVhAndPx() {
+    //// 动态设置根元素字体大小和高度单位   
   let vh = window.innerHeight * 0.01
   document.documentElement.style.setProperty('--vh', `${vh}px`)
   document.documentElement.style.fontSize = document.documentElement.clientWidth / 375 + 'px'

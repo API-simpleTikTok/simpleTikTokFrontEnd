@@ -39,7 +39,7 @@
     <teleport to="body">
       <div class="shadow">
         <div class="wrap"></div>
-        <AlbumDetail :detail="state.current" @close="close" />
+        <!-- <AlbumDetail :detail="state.current" @close="close" /> -->
       </div>
     </teleport>
   </div>
@@ -54,7 +54,7 @@ import { Icon } from '@iconify/vue'
 import WaterfallList from '@/components/WaterfallList.vue'
 import ScrollList from '@/components/ScrollList.vue'
 import { useBaseStore } from '@/store/pinia'
-import AlbumDetail from '@/pages/other/AlbumDetail.vue'
+//import AlbumDetail from '@/pages/other/AlbumDetail.vue'
 import Mock from 'mockjs'
 import { _css } from '@/utils/dom'
 

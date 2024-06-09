@@ -1,100 +1,9 @@
+<!-- 抖音的滑动界面，多层滑动组件的使用、页面状态管理、事件监听与响应 -->
 <template>
   <div class="test-slide-wrapper" id="home-index">
     <SlideHorizontal name="first" v-model:index="state.baseIndex">
       <SlideItem class="sidebar">
-        <div class="header">
-          <div class="left">下午好</div>
-          <div class="right" @click="nav('/home/live')">
-            <Icon icon="iconamoon:scanner" />
-            <span>扫一扫</span>
-          </div>
-        </div>
-        <div class="card">
-          <div class="header">
-            <div class="left">常用小程序</div>
-            <div class="right">
-              <span>全部</span>
-              <Icon icon="icon-park-outline:right" />
-            </div>
-          </div>
-          <div class="content">
-            <div class="item" @click="_no">
-              <img
-                class="xcx"
-                src="https://lf3-static.bytednsdoc.com/obj/eden-cn/pipieh7nupabozups/toutiao_web_pc/tt-icon.png"
-                alt=""
-              />
-              <span>今日头条</span>
-            </div>
-            <div class="item" @click="_no">
-              <img
-                class="xcx"
-                src="https://gd-hbimg.huaban.com/65130a3e6a139530bb03bd118e21a2603af7df4e1303b-OOzcBu_fw658webp"
-                alt=""
-              />
-              <span>西瓜视频</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="header">
-            <div class="left">最近常看</div>
-            <div class="right">
-              <span>全部</span>
-              <Icon icon="icon-park-outline:right" />
-            </div>
-          </div>
-          <div class="content">
-            <div class="item avatar" @click="_no" :key="i" v-for="i in 6">
-              <img
-                src="https://img.tol.vip/avatar/WEIXIN/3aSuTGYTzjHvcHy0y0tH1eiShKRk9Sgd.jpg?_upt=de4a5c251709635127"
-              />
-              <span>随机名字</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="header">
-            <div class="left">常用功能</div>
-            <div class="right"></div>
-          </div>
-          <div class="content">
-            <div class="item" @click="_no">
-              <Icon icon="ion:wallet-outline" />
-              <span>我的钱包</span>
-            </div>
-            <div class="item" @click="_no">
-              <Icon icon="mingcute:coupon-line" />
-              <span>券包</span>
-            </div>
-            <div class="item" @click="_no">
-              <Icon icon="icon-park-outline:bytedance-applets" />
-              <span>小程序</span>
-            </div>
-            <div class="item" @click="_no">
-              <Icon icon="solar:history-linear" />
-              <span>观看历史</span>
-            </div>
-            <div class="item" @click="_no">
-              <Icon icon="fluent:content-settings-24-regular" />
-              <span>内容偏好</span>
-            </div>
-            <div class="item" @click="_no">
-              <Icon icon="iconoir:cloud-download" />
-              <span>离线模式</span>
-            </div>
-            <div class="item" @click="_no">
-              <Icon icon="ep:setting" />
-              <span>设置</span>
-            </div>
-            <div class="item" @click="_no">
-              <Icon icon="icon-park-outline:baggage-delay" />
-              <span>稍后再看</span>
-            </div>
-          </div>
-        </div>
+        
       </SlideItem>
       <SlideItem>
         <IndicatorHome
@@ -113,7 +22,7 @@
           <!--          <SlideItem></SlideItem>-->
           <Slide0 :active="state.navIndex === 0 && state.baseIndex === 1" />
           <SlideItem>
-            <LongVideo :active="state.navIndex === 1 && state.baseIndex === 1" />
+            <!-- <LongVideo :active="state.navIndex === 1 && state.baseIndex === 1" /> -->
           </SlideItem>
           <!--          <SlideItem></SlideItem>-->
           <Slide2 :active="state.navIndex === 2 && state.baseIndex === 1" />
@@ -131,6 +40,7 @@
           style="position: absolute"
         />
       </SlideItem>
+      <!-- 博主详情页 -->
       <SlideItem>
         <UserPanel
           ref="uploader"
@@ -144,58 +54,36 @@
       </SlideItem>
     </SlideHorizontal>
 
-    <Comment
-      page-id="home-index"
-      :video-id="state.currentItem.aweme_id"
-      v-model="state.commentVisible"
-      @close="closeComments"
-    />
-
-    <Share
-      v-model="state.isSharing"
-      ref="share"
-      page-id="home-index"
-      @dislike="dislike"
-      :item="state.currentItem"
-      :videoId="state.recommendList[state.itemIndex]?.id"
-      :canDownload="state.recommendList[state.itemIndex]?.canDownload"
-      @play-feedback="state.showPlayFeedback = true"
-      @shareToFriend="delayShowDialog(() => (state.shareToFriend = true))"
-      @showDouyinCode="state.showDouyinCode = true"
-      @download="state.shareType = 9"
-    />
-
-    <PlayFeedback v-model="state.showPlayFeedback" />
 
     <DouyinCode :item="state.currentItem" v-model="state.showDouyinCode" />
 
-    <ShareTo
+    <!-- <ShareTo
       v-model:type="state.shareType"
       :videoId="state.recommendList[state.itemIndex]?.id"
       :canDownload="state.recommendList[state.itemIndex]?.canDownload"
-    />
+    /> -->
 
     <FollowSetting
       v-model:currentItem="state.currentItem"
-      @showChangeNote="delayShowDialog((e) => (state.showChangeNote = true))"
+
+    />
+      <!-- @showChangeNote="delayShowDialog((e) => (state.showChangeNote = true))"
       @showBlockDialog="delayShowDialog((e) => (state.showBlockDialog = true))"
       @showShare="delayShowDialog((e) => (state.isSharing = true))"
-      v-model="state.showFollowSetting"
-    />
-
+      v-model="state.showFollowSetting" -->
     <FollowSetting2
       v-model:currentItem="state.currentItem"
       @cancelFollow="uploader.cancelFollow()"
       v-model="state.showFollowSetting2"
     />
 
-    <BlockDialog v-model="state.showBlockDialog" />
+    <!-- <BlockDialog v-model="state.showBlockDialog" /> -->
 
     <ConfirmDialog title="设置备注名" ok-text="确认" v-model:visible="state.showChangeNote">
       <Search mode="light" v-model="state.test" :isShowSearchIcon="false" />
     </ConfirmDialog>
 
-    <ShareToFriend v-model="state.shareToFriend" />
+    <!-- <ShareToFriend v-model="state.shareToFriend" /> -->
 
     <BaseMask v-if="!isMobile" @click="isMobile = true" />
     <div v-if="!isMobile" class="guide">
@@ -214,21 +102,20 @@
 <script setup lang="tsx">
 import SlideHorizontal from '@/components/slide/SlideHorizontal.vue'
 import SlideItem from '@/components/slide/SlideItem.vue'
-import Comment from '../../components/Comment.vue'
-import Share from '../../components/Share.vue'
+// import Comment from '../../components/Comment.vue'
+
 import IndicatorHome from './components/IndicatorHome.vue'
 import { onActivated, onDeactivated, onMounted, onUnmounted, reactive, ref } from 'vue'
 import bus, { EVENT_KEY } from '../../utils/bus'
 import { useNav } from '@/utils/hooks/useNav'
-import PlayFeedback from '@/pages/home/components/PlayFeedback.vue'
-import ShareTo from '@/pages/home/components/ShareTo.vue'
+
 import DouyinCode from '../../components/DouyinCode.vue'
 import FollowSetting from '@/pages/home/components/FollowSetting.vue'
-import BlockDialog from '../message/components/BlockDialog.vue'
+//import BlockDialog from '../message/components/BlockDialog.vue'
 import Search from '../../components/Search.vue'
 import ConfirmDialog from '../../components/dialog/ConfirmDialog.vue'
 import FollowSetting2 from '@/pages/home/components/FollowSetting2.vue'
-import ShareToFriend from '@/pages/home/components/ShareToFriend.vue'
+
 import UserPanel from '@/components/UserPanel.vue'
 import Community from '@/pages/home/slide/Community.vue'
 import Slide0 from '@/pages/home/slide/Slide0.vue'
@@ -236,8 +123,8 @@ import Slide2 from '@/pages/home/slide/Slide2.vue'
 import Slide4 from '@/pages/home/slide/Slide4.vue'
 import { DefaultUser } from '@/utils/const_var'
 import { _no } from '@/utils'
-import LongVideo from '@/pages/home/slide/LongVideo.vue'
-import { useBaseStore } from '@/store/pinia'
+// import LongVideo from '@/pages/home/slide/LongVideo.vue'
+import { useBaseStore } from '@/store/pinia'//状态管理库，来维护和同步前端的状态    当前选中的项(currentItem
 import BaseMask from '@/components/BaseMask.vue'
 
 const nav = useNav()
@@ -254,19 +141,16 @@ const state = reactive({
   recommendList: [],
   isSharing: false,
   canMove: true,
-  shareType: -1,
-  showPlayFeedback: false,
-  showShareDuoshan: false,
-  showShareDialog: false,
-  showShare2WeChatZone: false,
+
+
   showDouyinCode: false,
   showFollowSetting: false,
   showFollowSetting2: false,
   showBlockDialog: false,
   showChangeNote: false,
-  shareToFriend: false,
+//   shareToFriend: false,
 
-  commentVisible: false,
+//   commentVisible: false,
   fullScreen: false,
   currentItem: {
     aweme_id: '',
@@ -293,7 +177,7 @@ function setCurrentItem(item) {
   }
   // console.log('item', item)
 }
-
+//使用一个事件总线bus来处理跨组件的事件通信。例如，当用户点击进入全屏模式或退出全屏模式时，通过事件总线广播这些事件，相关的组件可以监听这些事件并作出响应
 onMounted(() => {
   bus.on(EVENT_KEY.ENTER_FULLSCREEN, () => {
     if (!state.active) return
@@ -304,18 +188,19 @@ onMounted(() => {
     state.fullScreen = false
   })
   bus.on(EVENT_KEY.OPEN_COMMENTS, () => {
-    if (!state.active) return
-    bus.emit(EVENT_KEY.ENTER_FULLSCREEN)
-    state.commentVisible = true
+    console.log("bus.on(EVENT_KEY.OPEN_COMMENTS")
+    // if (!state.active) return
+    // bus.emit(EVENT_KEY.ENTER_FULLSCREEN)
+    // state.commentVisible = true
   })
   bus.on(EVENT_KEY.CLOSE_COMMENTS, () => {
-    if (!state.active) return
-    bus.emit(EVENT_KEY.EXIT_FULLSCREEN)
-    state.commentVisible = false
+    // if (!state.active) return
+    // bus.emit(EVENT_KEY.EXIT_FULLSCREEN)
+    // state.commentVisible = false
   })
   bus.on(EVENT_KEY.SHOW_SHARE, () => {
-    if (!state.active) return
-    state.isSharing = true
+    // if (!state.active) return
+    // state.isSharing = true
   })
   bus.on(EVENT_KEY.NAV, ({ path, query }) => {
     if (!state.active) return
@@ -341,10 +226,10 @@ onDeactivated(() => {
   state.active = false
   bus.emit(EVENT_KEY.TOGGLE_CURRENT_VIDEO)
 })
-
+/*
 function closeComments() {
   bus.emit(EVENT_KEY.CLOSE_COMMENTS)
-}
+}*/
 
 function dislike() {
   // listRef.value.dislike(state.list[1])

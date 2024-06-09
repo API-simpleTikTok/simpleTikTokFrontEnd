@@ -41,6 +41,24 @@
         />
       </div>
     </div>
+    <div class="input-number" v-if="type === 'text'">
+      <div class="right flex1">
+        <input
+          @click="isTyping = true"
+          @blur="delaySetTypingFalse"
+          :autofocus="autofocus"
+          v-model="value"
+          type="text"
+          :placeholder="placeholder"
+        />
+        <img
+          v-if="value && isTyping"
+          src="../../../assets/img/icon/login/close-full-gray.png"
+          alt=""
+          @click="value = ''"
+        />
+      </div>
+    </div>
     <div class="input-number" v-if="type === 'code'">
       <div class="left no-border flex1">
         <input

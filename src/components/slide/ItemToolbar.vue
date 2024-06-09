@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import BaseMusic from '../BaseMusic.vue'
+
 import { _formatNumber, cloneDeep } from '@/utils'
 import bus, { EVENT_KEY } from '@/utils/bus'
 import { Icon } from '@iconify/vue'
@@ -44,7 +44,7 @@ function attention(e) {
 }
 
 function showComments() {
-  bus.emit(EVENT_KEY.OPEN_COMMENTS, props.item.aweme_id)
+//   bus.emit(EVENT_KEY.OPEN_COMMENTS, props.item.aweme_id) 不要打开评论区辣    
 }
 
 const vClick = useClick()
@@ -95,11 +95,7 @@ const vClick = useClick()
     <div v-else class="share mb2r" v-click="() => bus.emit(EVENT_KEY.SHOW_SHARE)">
       <img src="../../assets/img/icon/menu-white.png" alt="" class="share-image" />
     </div>
-    <!--    <BaseMusic-->
-    <!--        :cover="item.music.cover"-->
-    <!--        v-click="$router.push('/home/music')"-->
-    <!--    /> -->
-    <BaseMusic />
+
   </div>
 </template>
 

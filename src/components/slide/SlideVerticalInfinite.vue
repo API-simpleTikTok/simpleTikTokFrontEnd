@@ -263,6 +263,8 @@ function touchMove(e) {
 }
 
 function touchEnd(e) {
+//在 touchEnd 函数中，根据用户的滑动方向（向上或向下），会使用 emit 来触发 ITEM_PLAY 和 ITEM_STOP 事件，用于控制视频播放或停止。
+    console.log("TOCHENDDDDDDDDDDDD")
   let isNext = state.move.y < 0
   if (
     state.localIndex === 0 &&
@@ -275,6 +277,7 @@ function touchEnd(e) {
     let half = (props.virtualTotal - 1) / 2
     if (props.list.length > props.virtualTotal) {
       //手指往上滑(即列表展示下一条内容)
+      console.log("next");
       if (isNext) {
         //删除最前面的 `dom` ，然后在最后面添加一个 `dom`
         if (state.localIndex > props.list.length - props.virtualTotal && state.localIndex > half) {
