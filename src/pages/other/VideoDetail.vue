@@ -45,52 +45,6 @@
       </div>
     </div>
 
-    <Comment
-      page-id="video-detail"
-      :video-id="state.currentItem.aweme_id"
-      v-model="state.commentVisible"
-      @close="closeComments"
-    />
-
-    <Share
-      v-model="state.isSharing"
-      ref="share"
-      page-id="video-detail"
-      @dislike="dislike"
-      :item="state.currentItem"
-      :videoId="state.recommendList[state.itemIndex]?.id"
-      :canDownload="state.recommendList[state.itemIndex]?.canDownload"
-      @play-feedback="state.showPlayFeedback = true"
-      @shareToFriend="delayShowDialog((e) => (state.shareToFriend = true))"
-      @showDouyinCode="state.showDouyinCode = true"
-      @download="state.shareType = 9"
-    />
-
-    <PlayFeedback v-model="state.showPlayFeedback" />
-
-    <DouyinCode :item="state.currentItem" v-model="state.showDouyinCode" />
-
-    <ShareTo
-      v-model:type="state.shareType"
-      :videoId="state.recommendList[state.itemIndex]?.id"
-      :canDownload="state.recommendList[state.itemIndex]?.canDownload"
-    />
-
-    <FollowSetting
-      v-model:currentItem="state.currentItem"
-      @showChangeNote="delayShowDialog((e) => (state.showChangeNote = true))"
-      @showBlockDialog="delayShowDialog((e) => (state.showBlockDialog = true))"
-      @showShare="delayShowDialog((e) => (state.isSharing = true))"
-      v-model="state.showFollowSetting"
-    />
-
-    <FollowSetting2
-      v-model:currentItem="state.currentItem"
-      @cancelFollow="$refs.uploader.cancelFollow()"
-      v-model="state.showFollowSetting2"
-    />
-
-    <BlockDialog v-model="state.showBlockDialog" />
 
     <ConfirmDialog title="设置备注名" ok-text="确认" v-model:visible="state.showChangeNote">
       <Search mode="light" v-model="state.test" :isShowSearchIcon="false" />
@@ -101,20 +55,10 @@
 </template>
 
 <script setup lang="jsx">
-import Comment from '../../components/Comment.vue'
-import Share from '../../components/Share.vue'
 import { onActivated, onDeactivated, onMounted, onUnmounted, reactive } from 'vue'
 import bus, { EVENT_KEY } from '../../utils/bus'
 import { useNav } from '@/utils/hooks/useNav'
-import PlayFeedback from '@/pages/home/components/PlayFeedback.vue'
-import ShareTo from '@/pages/home/components/ShareTo.vue'
-import DouyinCode from '../../components/DouyinCode.vue'
-import FollowSetting from '@/pages/home/components/FollowSetting.vue'
-import BlockDialog from '../message/components/BlockDialog.vue'
-import Search from '../../components/Search.vue'
 import ConfirmDialog from '../../components/dialog/ConfirmDialog.vue'
-import FollowSetting2 from '@/pages/home/components/FollowSetting2.vue'
-import ShareToFriend from '@/pages/home/components/ShareToFriend.vue'
 import { DefaultUser } from '@/utils/const_var'
 import { _checkImgUrl, slideItemRender } from '@/utils'
 import { useBaseStore } from '@/store/pinia'
@@ -172,10 +116,6 @@ onMounted(() => {
   // console.log('sss', state.list[state.index])
 })
 
-function delayShowDialog(cb) {
-  setTimeout(cb, 400)
-}
-
 function setCurrentItem(item) {
   // console.log('sss',item,state.baseIndex)
   if (state.baseIndex !== 1) return
@@ -215,15 +155,7 @@ onUnmounted(() => {
   bus.offAll()
 })
 
-function closeComments() {
-  bus.emit(EVENT_KEY.CLOSE_COMMENTS)
-}
 
-function dislike() {
-  // listRef.value.dislike(state.list[1])
-  // state.list[state.index] = state.list[1]
-  // _notice('操作成功，将减少此类视频的推荐')
-}
 
 function click(uniqueId) {
   bus.emit(EVENT_KEY.SINGLE_CLICK_BROADCAST, {

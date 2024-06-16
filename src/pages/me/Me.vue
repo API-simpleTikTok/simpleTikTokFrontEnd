@@ -3,11 +3,7 @@
     <SlideRowList name="baseSlide" style="width: 100%" v-model:active-index="baseActiveIndex">
       <SlideItem>
         <div ref="float" class="float" :class="floatFixed ? 'fixed' : ''">
-          <div
-            :style="floatFixed ? 'opacity: 0;' : ''"
-            class="left"
-            @click="$nav('/me/edit-userinfo')"
-          >
+          <div :style="floatFixed ? 'opacity: 0;' : ''" class="left" @click="$nav('/me/edit-userinfo')">
             <Icon icon="ri:edit-fill" />
             <span>编辑资料</span>
           </div>
@@ -17,18 +13,10 @@
             </div>
           </transition>
           <div class="right">
-            <div
-              class="item"
-              :style="floatFixed ? 'opacity: 0;' : ''"
-              @click="$nav('/me/request-update')"
-            >
+            <div class="item" :style="floatFixed ? 'opacity: 0;' : ''" >
               <Icon class="finger" icon="fluent-emoji-high-contrast:middle-finger" />
             </div>
-            <div
-              class="item"
-              :style="floatFixed ? 'opacity: 0;' : ''"
-              @click="$nav('/message/visitors')"
-            >
+            <div class="item" :style="floatFixed ? 'opacity: 0;' : ''" >
               <Icon icon="eva:people-outline" />
             </div>
             <div class="item" @click="_no">
@@ -39,37 +27,21 @@
             </div>
           </div>
         </div>
-        <div
-          class="scroll"
-          ref="scroll"
-          @touchstart="touchStart($event)"
-          @touchmove="touchMove($event)"
-          @touchend="touchEnd($event)"
-        >
+        <div class="scroll" ref="scroll" @touchstart="touchStart($event)" @touchmove="touchMove($event)"
+          @touchend="touchEnd($event)">
           <div ref="desc" class="desc">
-            <header
-              ref="header"
-              :style="{
+            <header ref="header" :style="{
                 backgroundImage: `url(${_checkImgUrl(userinfo.cover_url[0].url_list[0])})`
-              }"
-              @click="previewImg = _checkImgUrl(userinfo.cover_url[0].url_list[0])"
-            >
+              }" @click="previewImg = _checkImgUrl(userinfo.cover_url[0].url_list[0])">
               <div class="info">
-                <img
-                  :src="_checkImgUrl(userinfo.avatar_168x168.url_list[0])"
-                  class="avatar"
-                  @click.stop="previewImg = _checkImgUrl(userinfo.avatar_300x300.url_list[0])"
-                />
+                <img :src="_checkImgUrl(userinfo.avatar_168x168.url_list[0])" class="avatar"
+                  @click.stop="previewImg = _checkImgUrl(userinfo.avatar_300x300.url_list[0])" />
                 <div class="right">
                   <p class="name">{{ userinfo.nickname }}</p>
                   <div class="number mb1r">
                     <span class="mr1r" v-if="userinfo.is_private">私密账号</span>
                     <span>抖音号：{{ _getUserDouyinId({ author: userinfo }) }}</span>
-                    <img
-                      src="../../assets/img/icon/me/qrcode-gray.png"
-                      alt=""
-                      @click.stop="$nav('/me/my-card')"
-                    />
+                    <img src="../../assets/img/icon/me/qrcode-gray.png" alt="" />
                   </div>
                 </div>
               </div>
@@ -81,20 +53,20 @@
                     <span class="num">{{ _formatNumber(userinfo.aweme_count) }}</span>
                     <span>获赞</span>
                   </div>
-                  <div class="text" @click="$nav('/people/follow-and-fans', { type: 0 })">
+                  <div class="text" >
                     <span class="num">{{ _formatNumber(userinfo.following_count) }}</span>
                     <span>朋友</span>
                   </div>
-                  <div class="text" @click="$nav('/people/follow-and-fans', { type: 0 })">
+                  <div class="text" >
                     <span class="num">{{ _formatNumber(userinfo.following_count) }}</span>
                     <span>关注</span>
                   </div>
-                  <div class="text" @click="$nav('/people/follow-and-fans', { type: 1 })">
+                  <div class="text" >
                     <span class="num">{{ _formatNumber(userinfo.follower_count) }}</span>
                     <span>粉丝</span>
                   </div>
                 </div>
-                <div class="button" @click="$nav('/people/find-acquaintance')">添加朋友</div>
+                <div class="button" >添加朋友</div>
               </div>
               <div class="signature" @click="$nav('/me/edit-userinfo-item', { type: 3 })">
                 <template v-if="!userinfo.signature">
@@ -105,11 +77,7 @@
               </div>
               <div class="more" @click="$nav('/me/edit-userinfo')">
                 <div class="age item" v-if="userinfo.user_age !== -1">
-                  <img
-                    v-if="userinfo.gender == 2"
-                    src="../../assets/img/icon/me/woman.png"
-                    alt=""
-                  />
+                  <img v-if="userinfo.gender == 2" src="../../assets/img/icon/me/woman.png" alt="" />
                   <img v-if="userinfo.gender == 1" src="../../assets/img/icon/me/man.png" alt="" />
                   <span>{{ userinfo.user_age }}岁</span>
                 </div>
@@ -127,7 +95,7 @@
                   <Icon icon="iconamoon:shopping-card-light" />
                   <span>抖音商城</span>
                 </div>
-                <div class="item" @click="$nav('/me/my-music')">
+                <div class="item" @click="_no">
                   <Icon icon="iconamoon:music-2-light" />
                   <span>我的音乐</span>
                 </div>
@@ -142,19 +110,11 @@
               </div>
             </div>
           </div>
-          <Indicator
-            name="videoList"
-            tabStyleWidth="25%"
-            :tabTexts="['作品', '私密', '喜欢', '收藏']"
-            v-model:active-index="contentIndex"
-          >
+          <Indicator name="videoList" tabStyleWidth="25%" :tabTexts="['作品', '私密', '喜欢', '收藏']"
+            v-model:active-index="contentIndex">
           </Indicator>
-          <SlideRowList
-            ref="videoSlideRowList"
-            name="videoList"
-            :style="videoSlideRowListStyle"
-            v-model:active-index="contentIndex"
-          >
+          <SlideRowList ref="videoSlideRowList" name="videoList" :style="videoSlideRowListStyle"
+            v-model:active-index="contentIndex">
             <SlideItem class="SlideItem" @scroll="scroll" :style="SlideItemStyle">
               <Posters v-if="videos.my.total !== -1" :list="videos.my.list"></Posters>
               <Loading v-if="loadings.loading0" :is-full-screen="false"></Loading>
@@ -165,11 +125,7 @@
                 <img src="../../assets/img/icon/me/lock-gray.png" alt="" />
                 <span>只有你能看到设为私密的作品和日常</span>
               </div>
-              <Posters
-                v-if="videos.private.total !== -1"
-                mode="date"
-                :list="videos.private.list"
-              ></Posters>
+              <Posters v-if="videos.private.total !== -1" mode="date" :list="videos.private.list"></Posters>
               <Loading v-if="loadings.loading1" :is-full-screen="false"></Loading>
               <no-more v-else />
             </SlideItem>
@@ -199,10 +155,7 @@
                       <dy-back direction="right"></dy-back>
                     </div>
                   </div>
-                  <Posters
-                    v-if="videos.collect.video.total !== -1"
-                    :list="videos.collect.video.list"
-                  ></Posters>
+                  <Posters v-if="videos.collect.video.total !== -1" :list="videos.collect.video.list"></Posters>
                 </div>
 
                 <div class="music" v-if="videos.collect.music.total !== -1">
@@ -217,12 +170,8 @@
                     </div>
                   </div>
                   <div class="list">
-                    <div
-                      class="item"
-                      @click.stop="$nav('/home/music', i)"
-                      :key="j"
-                      v-for="(i, j) in videos.collect.music.list.slice(0, 3)"
-                    >
+                    <div class="item" @click.stop="$nav('/home/music', i)" :key="j"
+                      v-for="(i, j) in videos.collect.music.list.slice(0, 3)">
                       <img class="poster" :src="_checkImgUrl(i.cover)" alt="" />
                       <div class="title">{{ i.name }}</div>
                     </div>
@@ -347,23 +296,13 @@
     <transition name="fade">
       <div class="preview-img" v-if="previewImg" @click="previewImg = ''">
         <img class="resource" :src="previewImg" alt="" />
-        <img
-          class="download"
-          src="@/assets/img/icon/components/video/download.png"
-          alt=""
-          @click.stop="_no"
-        />
+        <img class="download" src="@/assets/img/icon/components/video/download.png" alt="" @click.stop="_no" />
       </div>
     </transition>
 
-    <ConfirmDialog
-      v-model:visible="isShowStarCount"
-      :subtitle="`&quot;${userinfo.nickname}&quot;共获得${_formatNumber(userinfo.aweme_count)}个赞`"
-      okText="确认"
-      cancelText="取消"
-      @ok="isShowStarCount = false"
-      @cancel="isShowStarCount = false"
-    >
+    <ConfirmDialog v-model:visible="isShowStarCount"
+      :subtitle="`&quot;${userinfo.nickname}&quot;共获得${_formatNumber(userinfo.aweme_count)}个赞`" okText="确认"
+      cancelText="取消" @ok="isShowStarCount = false" @cancel="isShowStarCount = false">
       <template v-slot:header>
         <img style="width: 100%" src="../../assets/img/icon/star-bg.png" alt="" />
       </template>
@@ -553,7 +492,10 @@ export default {
                 pageNo: this.videos.my.pageNo,
                 pageSize: this.pageSize
               })
-              if (res.success) this.videos.my = res.data
+              if (res.success) {
+                console.log('我的视频数据',res.data)
+                this.videos.my = res.data
+              }
               break
             case 1:
               res = await privateVideo({
@@ -632,6 +574,7 @@ export default {
         }
         this.loadings['loading' + this.contentIndex] = false
         if (res.success) {
+          console.log('新增视频',res.data.list)
           videoOb.list = videoOb.list.concat(res.data.list)
         }
       }

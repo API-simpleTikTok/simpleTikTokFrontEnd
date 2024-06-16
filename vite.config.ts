@@ -58,45 +58,6 @@ export default defineConfig((): Promise<UserConfig> => {
               }
             ]
           })
-          // viteCompression({
-          //   verbose: false,
-          //   disable: false,
-          //   threshold: 10240,
-          //   algorithm: 'brotliCompress',
-          // }),
-          // viteCompression({
-          //   verbose: false,
-          //   disable: false,
-          //   algorithm: 'gzip',
-          //   threshold: 10240,
-          // }),
-          // viteImagemin({
-          //   gifsicle: {
-          //     optimizationLevel: 7,
-          //     interlaced: false,
-          //   },
-          //   optipng: {
-          //     optimizationLevel: 7,
-          //   },
-          //   mozjpeg: {
-          //     quality: 20,
-          //   },
-          //   pngquant: {
-          //     quality: [0.8, 0.9],
-          //     speed: 4,
-          //   },
-          //   svgo: {
-          //     plugins: [
-          //       {
-          //         name: 'removeViewBox',
-          //       },
-          //       {
-          //         name: 'removeEmptyAttrs',
-          //         active: false,
-          //       },
-          //     ],
-          //   },
-          // }),
         ],
         resolve: {
           alias: {
@@ -128,14 +89,6 @@ export default defineConfig((): Promise<UserConfig> => {
                 if (id.includes('/src/pages/shop/Shop.vue')) return 'other'
                 if (id.includes('/src/pages/shop/GoodsDetail.vue')) return 'other'
 
-                if (id.includes('/src/pages/message/Message.vue')) return 'other'
-                if (id.includes('/src/pages/message/Fans.vue')) return 'other'
-                if (id.includes('/src/pages/message/AllMessage.vue')) return 'other'
-                if (id.includes('/src/pages/message/notice/DouyinHelper.vue')) return 'other'
-                if (id.includes('/src/pages/message/notice/SystemNotice.vue')) return 'other'
-                if (id.includes('/src/pages/message/notice/TaskNotice.vue')) return 'other'
-                if (id.includes('/src/pages/message/notice/LiveNotice.vue')) return 'other'
-                if (id.includes('/src/pages/message/notice/MoneyNotice.vue')) return 'other'
 
                 if (id.includes('/src/pages/me/Me.vue')) return 'other'
                 if (id.includes('/src/pages/me/Visitors.vue')) return 'other'

@@ -84,9 +84,11 @@ async function getData(refresh = false) {
   if (baseStore.loading) return
   baseStore.loading = true
   let res = await props.api({
+    author: '1945347711',
     start: refresh ? 0 : state.list.length,
     pageSize: state.pageSize
   })
+  console.log('response', res)
   // console.log('getSlide4Data-', refresh, res, state.totalSize, state.list.length)
   baseStore.loading = false
   if (res.success) {

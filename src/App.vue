@@ -6,7 +6,6 @@
       </keep-alive>
     </transition>
   </router-view>
-  <Call />
 </template>
 <script setup lang="ts">
 /*
@@ -14,7 +13,6 @@
 try {navigator.control.longpressMenu(false);} catch (e) {} //关闭长按弹出菜单
 * */
 import routes from './router/routes'
-import Call from './components/Call.vue'
 import { useBaseStore } from '@/store/pinia.js'
 import { onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
