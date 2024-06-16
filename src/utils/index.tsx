@@ -6,7 +6,6 @@ import Loading from '../components/Loading.vue'
 import { IMG_URL, IS_DEV, IS_GITEE_PAGES } from '@/config'
 import NoticeDialog from '../components/dialog/NoticeDialog.vue'
 import { ArchiveReader, libarchiveWasm } from 'libarchive-wasm'
-// import SlideUser from '@/components/slide/SlideUser.vue'
 import BaseVideo from '@/components/slide/BaseVideo.vue'
 
 export function _storageSet(key, value) {
@@ -246,11 +245,11 @@ export function _showSimpleConfirmDialog(title, okCb, cancelCb, okText, cancelTe
       parent.remove()
     }, 300)
   }
-  const tempOkCb = (e) => {
+  const tempOkCb = (e?:any) => {
     remove()
     okCb(e)
   }
-  const tempCancelCb = (e) => {
+  const tempCancelCb = (e?: any) => {
     remove()
     cancelCb(e)
   }
@@ -291,11 +290,11 @@ export function _showConfirmDialog(
       parent.remove()
     }, 300)
   }
-  const tempOkCb = (e) => {
+  const tempOkCb = (e?: any) => {
     remove()
     okCb && okCb(e)
   }
-  const tempCancelCb = (e) => {
+  const tempCancelCb = (e?: any) => {
     remove()
     cancelCb && cancelCb(e)
   }
@@ -330,7 +329,7 @@ export function _showNoticeDialog(title, subtitle, subtitleColor, cancelCb, canc
       parent.remove()
     }, 300)
   }
-  const tempCancelCb = (e) => {
+  const tempCancelCb = (e?: any) => {
     remove()
     cancelCb(e)
   }
@@ -408,7 +407,7 @@ export async function _fetch(url: string): Promise<{ json(): Promise<any> } | Re
 
 export function slideItemRender(props) {
   return function render(item, index, play, uniqueId) {
-    // console.log('item', item)
+    console.log('item', item)
     let node
     switch (item.type) {
       case 'img':

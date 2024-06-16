@@ -21,7 +21,7 @@ let allRecommendVideos = posts6.map((v: any) => {
   return v
 })
 
-// console.log('allRecommendVideos', allRecommendVideos)
+console.log('allRecommendVideos', allRecommendVideos)
 // eslint-disable-next-line
 const t = [
   {
@@ -133,23 +133,22 @@ async function fetchData() {
 
 //TODO 有个bug，一开始只返回了6条数据，但第二次前端传过来的pageNo是2了，就是会从第10条数据开始返回，导致中间漏了4条
 export async function startMock() {
-  mock.onGet(/video\/recommended/).reply(async (config) => {
-    const { start, pageSize } = config.params
-    console.log('allRecommendVideos', cloneDeep(allRecommendVideos.length), config.params, allRecommendVideos)
-    let res = [
-      200,
-      {
-        data: {
-          total: 844,
-          list: allRecommendVideos.slice(start, start + pageSize) // list: allRecommendVideos.slice(0, 6),
-        },
-        code: 200,
-        msg: ''
-      }
-    ];
-    console.log("【mock-data】",res)
-    return res;
-  })
+  // mock.onGet(/video\/recommended/).reply(async (config) => {
+  //   const { start, pageSize } = config.params
+  //   console.log('test',start, pageSize)
+  //   console.log('allRecommendVideos', allRecommendVideos, config.params)
+  //   return [
+  //     200,
+  //     {
+  //       data: {
+  //         total: 844,
+  //         list: allRecommendVideos.slice(start, start + pageSize) // list: allRecommendVideos.slice(0, 6),
+  //       },
+  //       code: 200,
+  //       msg: ''
+  //     }
+  //   ]
+  // })
   mock.onGet(/video\/long\/recommended/).reply(async (config) => {
     const page = getPage2(config.params)
     return [
@@ -228,14 +227,15 @@ export async function startMock() {
 
   mock.onGet(/video\/my/).reply(async (config) => {
     const page = getPage2(config.params)
+    console.log('mock我的视频',page)
     if (!userVideos.length) {
       // let r = await fetch(BASE_URL + '/data/user-71158770.json')
       // let r = await fetch(BASE_URL + '/data/user-8357999.json')
       const r = await _fetch(BASE_URL + '/data/user_video_list/user-12345xiaolaohu.md')
       const list = await r.json()
+      console.log('list',list)
       const baseStore = useBaseStore()
       const userList = cloneDeep(baseStore.users)
-
       userVideos = list.map((w) => {
         if (userList.length) {
           const item = userList.find((a) => String(a.uid) === String(w.author_user_id))
@@ -244,6 +244,7 @@ export async function startMock() {
         return w
       })
     }
+    console.log('已完成数据',userVideos)
 
     return [
       200,
@@ -375,6 +376,8 @@ export async function startMock() {
       }
     ]
   })
+  // 允许所有未被拦截的请求直接通过
+  mock.onAny().passThrough();
 
   setTimeout(fetchData, 1000)
 }

@@ -133,6 +133,7 @@ let state = reactive({
 //   commentVisible: false
 })
 const poster = $computed(() => {
+  console.log('测试', props.item)
   return _checkImgUrl(props.item.video.poster ?? props.item.video.cover.url_list[0])
 })
 const durationStyle = $computed(() => {

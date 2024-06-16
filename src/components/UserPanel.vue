@@ -204,7 +204,7 @@
               <dy-back img="close" scale=".6"></dy-back>
             </div>
           </div>
-          <div class="more" @click="$nav('/people/find-acquaintance')">
+          <div class="more" >
             <div class="notice">
               <div>点击查看</div>
               <div>更多好友</div>

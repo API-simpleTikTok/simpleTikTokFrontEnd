@@ -1,5 +1,5 @@
 export default {
-  baseUrl: 'https://dy.ttentau.top/imgs/',
+  baseUrl: 'http://127.0.0.1:3030',
   imgPath: '/imgs/',
   filePreview: 'http://192.168.0.103/static/uploads/'
 }

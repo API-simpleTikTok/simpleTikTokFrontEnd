@@ -1,16 +1,14 @@
-<!-- 抖音的滑动界面，多层滑动组件的使用、页面状态管理、事件监听与响应 -->
 <template>
   <div class="test-slide-wrapper" id="home-index">
     <SlideHorizontal name="first" v-model:index="state.baseIndex">
       <SlideItem class="sidebar">
-        
       </SlideItem>
       <SlideItem>
         <IndicatorHome
           v-if="!state.fullScreen"
           :loading="baseStore.loading"
           name="second"
-          @showSlidebar="state.baseIndex = 0"
+          @showSlidebar="state.baseIndex == 0"
           v-model:index="state.navIndex"
         />
         <SlideHorizontal
@@ -21,9 +19,7 @@
         >
           <!--          <SlideItem></SlideItem>-->
           <Slide0 :active="state.navIndex === 0 && state.baseIndex === 1" />
-          <SlideItem>
-            <!-- <LongVideo :active="state.navIndex === 1 && state.baseIndex === 1" /> -->
-          </SlideItem>
+          <SlideItem />
           <!--          <SlideItem></SlideItem>-->
           <Slide2 :active="state.navIndex === 2 && state.baseIndex === 1" />
           <SlideItem>
@@ -40,7 +36,6 @@
           style="position: absolute"
         />
       </SlideItem>
-      <!-- 博主详情页 -->
       <SlideItem>
         <UserPanel
           ref="uploader"
@@ -54,37 +49,6 @@
           @showFollowSetting2="state.showFollowSetting2 = true" -->
       </SlideItem>
     </SlideHorizontal>
-
-
-    <!-- <DouyinCode :item="state.currentItem" v-model="state.showDouyinCode" /> -->
-
-    <!-- <ShareTo
-      v-model:type="state.shareType"
-      :videoId="state.recommendList[state.itemIndex]?.id"
-      :canDownload="state.recommendList[state.itemIndex]?.canDownload"
-    /> -->
-
-    <!-- <FollowSetting
-      v-model:currentItem="state.currentItem"
-
-    /> -->
-      <!-- @showChangeNote="delayShowDialog((e) => (state.showChangeNote = true))"
-      @showBlockDialog="delayShowDialog((e) => (state.showBlockDialog = true))"
-      @showShare="delayShowDialog((e) => (state.isSharing = true))"
-      v-model="state.showFollowSetting" -->
-    <!-- <FollowSetting2
-      v-model:currentItem="state.currentItem"
-      @cancelFollow="uploader.cancelFollow()"
-      v-model="state.showFollowSetting2"
-    /> -->
-
-    <!-- <BlockDialog v-model="state.showBlockDialog" /> -->
-
-    <ConfirmDialog title="设置备注名" ok-text="确认" v-model:visible="state.showChangeNote">
-      <Search mode="light" v-model="state.test" :isShowSearchIcon="false" />
-    </ConfirmDialog>
-
-    <!-- <ShareToFriend v-model="state.shareToFriend" /> -->
 
     <BaseMask v-if="!isMobile" @click="isMobile = true" />
     <div v-if="!isMobile" class="guide">
@@ -142,16 +106,17 @@ const state = reactive({
   recommendList: [],
   isSharing: false,
   canMove: true,
-
-
+  shareType: -1,
+  showShareDuoshan: false,
+  showShareDialog: false,
+  showShare2WeChatZone: false,
   showDouyinCode: false,
  //  showFollowSetting: false,
 //   showFollowSetting2: false,
   showBlockDialog: false,
   showChangeNote: false,
-//   shareToFriend: false,
 
-//   commentVisible: false,
+  commentVisible: false,
   fullScreen: false,
   currentItem: {
     aweme_id: '',
@@ -178,7 +143,7 @@ function setCurrentItem(item) {
   }
   // console.log('item', item)
 }
-//使用一个事件总线bus来处理跨组件的事件通信。例如，当用户点击进入全屏模式或退出全屏模式时，通过事件总线广播这些事件，相关的组件可以监听这些事件并作出响应
+
 onMounted(() => {
   bus.on(EVENT_KEY.ENTER_FULLSCREEN, () => {
     if (!state.active) return
@@ -189,19 +154,19 @@ onMounted(() => {
     state.fullScreen = false
   })
   bus.on(EVENT_KEY.OPEN_COMMENTS, () => {
-    console.log("")
+    console.log("OPEN_COMMENTS")
     // if (!state.active) return
     // bus.emit(EVENT_KEY.ENTER_FULLSCREEN)
     // state.commentVisible = true
   })
   bus.on(EVENT_KEY.CLOSE_COMMENTS, () => {
-    // if (!state.active) return
-    // bus.emit(EVENT_KEY.EXIT_FULLSCREEN)
-    // state.commentVisible = false
+    if (!state.active) return
+    bus.emit(EVENT_KEY.EXIT_FULLSCREEN)
+    state.commentVisible = false
   })
   bus.on(EVENT_KEY.SHOW_SHARE, () => {
-    // if (!state.active) return
-    // state.isSharing = true
+    if (!state.active) return
+    state.isSharing = true
   })
   bus.on(EVENT_KEY.NAV, ({ path, query }) => {
     if (!state.active) return
@@ -212,6 +177,7 @@ onMounted(() => {
     state.baseIndex = 2
   })
   bus.on(EVENT_KEY.CURRENT_ITEM, setCurrentItem)
+  console.log('导航',state.navIndex,state.baseIndex)
 })
 
 onUnmounted(() => {
@@ -227,16 +193,6 @@ onDeactivated(() => {
   state.active = false
   bus.emit(EVENT_KEY.TOGGLE_CURRENT_VIDEO)
 })
-/*
-function closeComments() {
-  bus.emit(EVENT_KEY.CLOSE_COMMENTS)
-}*/
-
-function dislike() {
-  // listRef.value.dislike(state.list[1])
-  // state.list[state.index] = state.list[1]
-  // _notice('操作成功，将减少此类视频的推荐')
-}
 </script>
 
 <style scoped lang="less">

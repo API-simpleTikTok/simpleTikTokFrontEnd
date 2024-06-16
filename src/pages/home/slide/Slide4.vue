@@ -17,7 +17,7 @@ import { recommendedVideo } from '@/api/videos'
 const props = defineProps({
   active: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 })
 </script>

@@ -27,3 +27,8 @@ export function recommendedPost(params?: any, data?: any) {
 export function recommendedShop(params?: any, data?: any) {
   return request({ url: '/shop/recommended', method: 'get', params, data })
 }
+
+export function diggVideo(data?: any) {
+  return request({ url: '/user/diggVideo',method:'post',data })
+}
+

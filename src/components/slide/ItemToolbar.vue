@@ -5,6 +5,7 @@ import bus, { EVENT_KEY } from '@/utils/bus'
 import { Icon } from '@iconify/vue'
 import { useClick } from '@/utils/hooks/useClick'
 import { inject } from 'vue'
+import { diggVideo } from '@/api/user'
 
 const props = defineProps({
   isMy: {
@@ -33,6 +34,8 @@ function _updateItem(props, key, val) {
 }
 
 function loved() {
+  console.log('digg_love',props.item)
+  diggVideo({'isLoved':props.item.isLoved ? !props.item.isLoved : true, 'aweme_id':props.item.video.aweme_id,'author': '1945347711'})
   _updateItem(props, 'isLoved', !props.item.isLoved)
 }
 
