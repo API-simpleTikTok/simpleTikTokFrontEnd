@@ -50,3 +50,21 @@ src/utils/index/tsx 调用 BaseVideo
 
 - SlideList.vue里面getData：await props.api发送请求
 到时候只需要修改apis里面的请求地址即可
+
+# 接口文档
+## 登录
+> url:http://localhost:3030/session
+src/pages/login/Login.vue
+```json
+{
+    "uniqueId": "home",
+    "index": 0,
+    "type": "ITEM_TOGGLE"
+}
+```
+## 注册
+> url:http://localhost:3030/user/sign
+src/pages/login/Register.vue
+```json
+
+```

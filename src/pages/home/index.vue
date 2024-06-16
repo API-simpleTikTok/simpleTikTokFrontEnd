@@ -77,12 +77,11 @@ import { useNav } from '@/utils/hooks/useNav'
 // import DouyinCode from '../../components/DouyinCode.vue'
 // import FollowSetting from '@/pages/home/components/FollowSetting.vue'
 //import BlockDialog from '../message/components/BlockDialog.vue'
-// import Search from '../../components/Search.vue'
-import ConfirmDialog from '../../components/dialog/ConfirmDialog.vue'
+
 // import FollowSetting2 from '@/pages/home/components/FollowSetting2.vue'
 
 import UserPanel from '@/components/UserPanel.vue'
-import Community from '@/pages/home/slide/Community.vue'
+
 import Slide0 from '@/pages/home/slide/Slide0.vue'
 import Slide2 from '@/pages/home/slide/Slide2.vue'
 import Slide4 from '@/pages/home/slide/Slide4.vue'

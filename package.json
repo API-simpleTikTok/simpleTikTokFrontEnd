@@ -27,12 +27,14 @@
     "axios": "^1.6.8",
     "axios-mock-adapter": "^1.22.0",
     "core-js": "3.21.1",
+    "element-plus": "^2.7.5",
     "element-ui": "^2.15.14",
     "libarchive-wasm": "^1.1.0",
     "mockjs": "^1.1.0",
     "pinia": "^2.1.7",
     "vue": "3.4.21",
-    "vue-router": "4.3.0"
+    "vue-router": "4.3.0",
+    "vuex": "^4.1.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.2.1",

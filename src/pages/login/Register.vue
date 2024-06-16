@@ -52,7 +52,7 @@ import Check from '../../components/Check'
 import LoginInput from './components/LoginInput'
 import Tooltip from './components/Tooltip'
 import Base from './Base'
-
+import axios from 'axios';
 export default {
   name: 'PasswordRegister',
   extends: Base,
@@ -90,18 +90,22 @@ export default {
         return;
       }
       this.loading = true;
-      // 这里添加注册逻辑，如发送API请求等
-      
-       /*axios.post('/register', { username: data.username, password: data.password })
+      // 这里添加注册逻辑
+      console.log("author=", this.username, "password=", this.password);
+       axios.post('http://localhost:3030/user/sign', { author: this.username, password: this.password, confirmedPassword: this.password })
         .then(response => {
-            // 处理登录成功的情况
-            router.push('/home'); // 使用 router 实例进行导航
+            // 处理注册成功的情况
+            console.log("注册成功!")
+            // this.$router.push('/login'); 
+            this.$router.push({ 
+              path: '/login', 
+              query: { username: this.username, password: this.password }
+            }); 
         })
         .catch(error => {
-            // 处理登录失败的情况
-            console.error('登录失败:', error);
-        });*/
-        router.push('/home'); // 使用 router 实例进行导航
+            // 处理注册失败的情况
+            console.error('注册失败:', error);
+        });
     }
   }
 }
@@ -128,9 +132,9 @@ export default {
 }
 
 .content {
-  width: 100%; /* 根据需要调整宽度 */
-  max-width: 500px; /* 最大宽度，保证不会过宽 */
-  box-shadow: 0 0 10px rgba(0,0,0,0.1); /* 可选：添加阴影效果提升焦点 */
+  width: 100%; 
+  max-width: 500px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1); 
   padding: 2rem; /* 内部间距 */
   background: #fff; /* 背景色 */
   border-radius: 8px; /* 圆角 */

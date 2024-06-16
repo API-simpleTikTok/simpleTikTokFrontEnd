@@ -8,6 +8,8 @@ import VueLazyload from '@jambonn/vue-lazyload'
 import { createPinia } from 'pinia'
 import { useClick } from '@/utils/hooks/useClick'
 import bus, { EVENT_KEY } from '@/utils/bus'
+import ElementPlus from 'element-plus';
+import 'element-plus/dist/index.css';
 
 window.isMoved = false
 window.isMuted = true
@@ -46,6 +48,7 @@ app.use(VueLazyload, {
 })
 app.use(pinia)
 app.use(router)
+app.use(ElementPlus);
 app.mount('#app')
 app.directive('click', vClick)
 
