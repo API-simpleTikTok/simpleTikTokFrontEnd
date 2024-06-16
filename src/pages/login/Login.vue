@@ -13,7 +13,7 @@
         <div class="sub-title">认证服务由中国移动提供</div>
       </div> -->
         <div class="desc">
-        <div class="title">登录看朋友内容</div>
+        <div class="title" style="fontSize:20px">登录看朋友内容</div>
         <div class="form">
             <label for="data.username">账号</label>
             <input v-model="data.username" type="text" placeholder="请输入账号" id="username" class="input" />
@@ -60,25 +60,6 @@
           </div>
         </div>
       </div>
-
-      <!-- <div class="other-login">
-        <transition name="fade">
-          <div v-if="data.isOtherLogin" class="icons">
-            <img @click="_no" src="../../assets/img/icon/login/toutiao-round.png" alt="" />
-            <img @click="_no" src="../../assets/img/icon/login/qq-round.webp" alt="" />
-            <img @click="_no" src="../../assets/img/icon/login/wechat-round.png" alt="" />
-            <img @click="_no" src="../../assets/img/icon/login/weibo-round.webp" alt="" />
-          </div>
-        </transition>
-      </div> -->
-      <!-- <transition name="fade">
-        <span
-          v-if="!data.isOtherLogin"
-          class="other-login-text link"
-          @click="data.isOtherLogin = !data.isOtherLogin"
-          >其他方式登录</span
-        >
-      </transition> -->
     </div>
   </div>
 </template>
@@ -88,8 +69,8 @@ import { useRouter } from 'vue-router';
 import Tooltip from './components/Tooltip.vue'
 import Loading from '../../components/Loading.vue'
 import { onMounted, reactive } from 'vue'
-import { useNav } from '@/utils/hooks/useNav'
-import { _no, _sleep } from '@/utils'
+import { useNav } from '../../utils/hooks/useNav'//'@/utils/hooks/useNav'
+import { _no, _sleep } from '../../utils'
 
 import axios from 'axios';
 

@@ -77,7 +77,7 @@ import { useNav } from '@/utils/hooks/useNav'
 // import DouyinCode from '../../components/DouyinCode.vue'
 // import FollowSetting from '@/pages/home/components/FollowSetting.vue'
 //import BlockDialog from '../message/components/BlockDialog.vue'
-import Search from '../../components/Search.vue'
+// import Search from '../../components/Search.vue'
 import ConfirmDialog from '../../components/dialog/ConfirmDialog.vue'
 // import FollowSetting2 from '@/pages/home/components/FollowSetting2.vue'
 
