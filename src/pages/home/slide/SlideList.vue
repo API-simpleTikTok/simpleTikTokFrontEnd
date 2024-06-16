@@ -58,9 +58,9 @@ const props = defineProps({
 const baseStore = useBaseStore()
 
 const p = {
-  onShowComments() {
-    console.log('onShowComments')
-  }
+//   onShowComments() {
+//     console.log('onShowComments')
+//   }
 }
 
 const render = slideItemRender({ ...props.cbs, ...p })

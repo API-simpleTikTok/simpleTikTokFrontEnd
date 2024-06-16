@@ -135,8 +135,8 @@ async function fetchData() {
 export async function startMock() {
   mock.onGet(/video\/recommended/).reply(async (config) => {
     const { start, pageSize } = config.params
-    // console.log('allRecommendVideos', cloneDeep(allRecommendVideos.length), config.params)
-    return [
+    console.log('allRecommendVideos', cloneDeep(allRecommendVideos.length), config.params, allRecommendVideos)
+    let res = [
       200,
       {
         data: {
@@ -146,7 +146,9 @@ export async function startMock() {
         code: 200,
         msg: ''
       }
-    ]
+    ];
+    console.log("【mock-data】",res)
+    return res;
   })
   mock.onGet(/video\/long\/recommended/).reply(async (config) => {
     const page = getPage2(config.params)

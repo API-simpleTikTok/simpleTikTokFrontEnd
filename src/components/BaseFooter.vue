@@ -55,15 +55,15 @@ export default {
         case 1:
           this.$nav('/')
           break
-        case 2:
-          this.$nav('/shop')
-          break
+        // case 2:
+        //   this.$nav('/shop')
+        //   break
         case 3:
           this.$nav('/publish')
           break
-        case 4:
-          this.$nav('/message')
-          break
+        // case 4:
+        //   this.$nav('/message')
+        //   break
         case 5:
           this.$nav('/me')
           break

@@ -20,7 +20,6 @@
         v-hide="loading"
         icon="ion:search"
         class="search"
-        @click="$router.push('/home/search')"
       />
     </div>
     <Loading :style="loadingStyle" class="loading" style="width: 40rem" :is-full-screen="false" />
