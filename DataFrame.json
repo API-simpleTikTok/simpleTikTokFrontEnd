@@ -1,0 +1,108 @@
+[
+    200,
+    {
+        "data": {
+            "total": 844,
+            "list": [ 
+            //完整版
+                {
+                    "desc": "你说爱像云 要自在漂浮才美丽",
+                    "video": {
+                        "play_addr": {
+                            "url_list": [
+                                "https://www.douyin.com/aweme/v1/play/?video_id=v0d00fg10000cj1lq4jc77u0ng6s1gt0&line=0&file_id=bed51c00899b458cbc5d8280147c22a1&sign=7749aec7bd62a3760065f60e40fc1867&is_play_url=1&source=PackSourceEnum_PUBLISH"
+                            ]
+                        },
+                        "poster": "a1.jpg",
+                        "ratio": "1080p",
+                        "use_static_cover": true,
+                        "duration": 13560
+                    },
+                    "statistics": {
+                        "admire_count": 0,
+                        "comment_count": 21582,
+                        "digg_count": 1246636,
+                        "collect_count": 64460,
+                        "play_count": 0,
+                        "share_count": 172803
+                    },
+                    "author": {
+                        "avatar_168x168": {
+                            "url_list": [
+                                "https://p3-pc.douyinpic.com/img/aweme-avatar/mosaic-legacy_20b7700050147c01968f3~c5_168x168.jpeg?from=2956013662"
+                            ]
+                        },
+                        "avatar_300x300": {
+                            "url_list": [
+                                "https://p3-pc.douyinpic.com/img/aweme-avatar/mosaic-legacy_20b7700050147c01968f3~c5_300x300.jpeg?from=2956013662"
+                            ]
+                        },
+                        "cover_url": [
+                            {
+                                "uri": "douyin-user-image-file/f2196ddaa37f3097932d8a29ff0d0ca5",
+                                "url_list": [
+                                    "AiIEMkIA7Cb3s5c4e7e6g.png"
+                                ]
+                            },
+                            {
+                                "uri": "c8510002be9a3a61aad2",
+                                "url_list": [
+                                    "aHzLr77vcdBMUil15rXBa.png"
+                                ]
+                            }
+                        ]
+                    },
+                    "type": "recommend-video"
+                },
+            //删减版
+             {
+                "desc": "你说爱像云 要自在漂浮才美丽",    
+                "video": {
+                "play_addr": {
+                    "url_list": [
+                    "https://www.douyin.com/aweme/v1/play/?video_id=v0d00fg10000cj1lq4jc77u0ng6s1gt0&line=0&file_id=bed51c00899b458cbc5d8280147c22a1&sign=7749aec7bd62a3760065f60e40fc1867&is_play_url=1&source=PackSourceEnum_PUBLISH"
+                    ]
+                },
+                "poster": "a1.jpg",//fake
+                "ratio": "1080p",//fake//fake
+                "use_static_cover": true,//fake
+                "duration": 13560//fake
+                },
+                "statistics": {
+                "admire_count": 0,
+                "comment_count": 21582,
+                "digg_count": 1246636,
+                "collect_count": 64460,
+                "play_count": 0,
+                "share_count": 172803
+                },
+                "author": {
+                "avatar_168x168": {
+                    "url_list": [
+                    "https://p3-pc.douyinpic.com/img/aweme-avatar/mosaic-legacy_20b7700050147c01968f3~c5_168x168.jpeg?from=2956013662"
+                    ]
+                },
+                "avatar_300x300": {
+                    "url_list": [
+                    "https://p3-pc.douyinpic.com/img/aweme-avatar/mosaic-legacy_20b7700050147c01968f3~c5_300x300.jpeg?from=2956013662"
+                    ]
+                },
+                
+                "cover_url": [
+                    {
+                    "uri": "douyin-user-image-file/f2196ddaa37f3097932d8a29ff0d0ca5",
+                    "url_list": ["AiIEMkIA7Cb3s5c4e7e6g.png"]
+                    },
+                    {
+                    "uri": "c8510002be9a3a61aad2",
+                    "url_list": ["aHzLr77vcdBMUil15rXBa.png"]
+                    }
+                ]//fake
+                }
+            }
+                ]
+        },
+        "code": 200,
+        "msg": ""
+    }
+]

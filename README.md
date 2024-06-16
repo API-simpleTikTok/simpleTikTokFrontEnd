@@ -42,3 +42,11 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
         - Publish.vue //发布视频
         - Report.vue
         - SearchPage.vue
+
+src/utils/index/tsx 调用 BaseVideo
+
+- Slide4是一个滑块，可以展示视频, 调用recommendedVideo
+- 发送请求的为：src/api/video.ts
+
+- SlideList.vue里面getData：await props.api发送请求
+到时候只需要修改apis里面的请求地址即可

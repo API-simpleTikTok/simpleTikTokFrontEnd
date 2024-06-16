@@ -27,7 +27,7 @@
           <!--          <SlideItem></SlideItem>-->
           <Slide2 :active="state.navIndex === 2 && state.baseIndex === 1" />
           <SlideItem>
-            <Community :active="state.navIndex === 3 && state.baseIndex === 1" />
+            <!-- <Community :active="state.navIndex === 3 && state.baseIndex === 1" /> -->
           </SlideItem>
           <Slide4 :active="state.navIndex === 4 && state.baseIndex === 1" />
         </SlideHorizontal>
@@ -48,14 +48,15 @@
           :active="state.baseIndex === 2"
           @toggleCanMove="(e) => (state.canMove = e)"
           @back="state.baseIndex = 1"
-          @showFollowSetting="state.showFollowSetting = true"
-          @showFollowSetting2="state.showFollowSetting2 = true"
+
         />
+                  <!-- @showFollowSetting="state.showFollowSetting = true"
+          @showFollowSetting2="state.showFollowSetting2 = true" -->
       </SlideItem>
     </SlideHorizontal>
 
 
-    <DouyinCode :item="state.currentItem" v-model="state.showDouyinCode" />
+    <!-- <DouyinCode :item="state.currentItem" v-model="state.showDouyinCode" /> -->
 
     <!-- <ShareTo
       v-model:type="state.shareType"
@@ -63,19 +64,19 @@
       :canDownload="state.recommendList[state.itemIndex]?.canDownload"
     /> -->
 
-    <FollowSetting
+    <!-- <FollowSetting
       v-model:currentItem="state.currentItem"
 
-    />
+    /> -->
       <!-- @showChangeNote="delayShowDialog((e) => (state.showChangeNote = true))"
       @showBlockDialog="delayShowDialog((e) => (state.showBlockDialog = true))"
       @showShare="delayShowDialog((e) => (state.isSharing = true))"
       v-model="state.showFollowSetting" -->
-    <FollowSetting2
+    <!-- <FollowSetting2
       v-model:currentItem="state.currentItem"
       @cancelFollow="uploader.cancelFollow()"
       v-model="state.showFollowSetting2"
-    />
+    /> -->
 
     <!-- <BlockDialog v-model="state.showBlockDialog" /> -->
 
@@ -109,12 +110,12 @@ import { onActivated, onDeactivated, onMounted, onUnmounted, reactive, ref } fro
 import bus, { EVENT_KEY } from '../../utils/bus'
 import { useNav } from '@/utils/hooks/useNav'
 
-import DouyinCode from '../../components/DouyinCode.vue'
-import FollowSetting from '@/pages/home/components/FollowSetting.vue'
+// import DouyinCode from '../../components/DouyinCode.vue'
+// import FollowSetting from '@/pages/home/components/FollowSetting.vue'
 //import BlockDialog from '../message/components/BlockDialog.vue'
 import Search from '../../components/Search.vue'
 import ConfirmDialog from '../../components/dialog/ConfirmDialog.vue'
-import FollowSetting2 from '@/pages/home/components/FollowSetting2.vue'
+// import FollowSetting2 from '@/pages/home/components/FollowSetting2.vue'
 
 import UserPanel from '@/components/UserPanel.vue'
 import Community from '@/pages/home/slide/Community.vue'
@@ -134,7 +135,7 @@ const isMobile = ref(/Mobi|Android|iPhone/i.test(navigator.userAgent))
 
 const state = reactive({
   active: true,
-  baseIndex: 1,
+  baseIndex: 1,//默认是1
   navIndex: 4,
   itemIndex: 0,
   test: '',
@@ -144,8 +145,8 @@ const state = reactive({
 
 
   showDouyinCode: false,
-  showFollowSetting: false,
-  showFollowSetting2: false,
+ //  showFollowSetting: false,
+//   showFollowSetting2: false,
   showBlockDialog: false,
   showChangeNote: false,
 //   shareToFriend: false,
@@ -166,7 +167,7 @@ function delayShowDialog(cb: Function) {
 
 function setCurrentItem(item) {
   if (!state.active) return
-  // console.log('sss',item,state.baseIndex)
+  console.log('sss',item,state.baseIndex)
   if (state.baseIndex !== 1) return
   if (state.currentItem.author.uid !== item.author.uid) {
     state.currentItem = {
@@ -188,7 +189,7 @@ onMounted(() => {
     state.fullScreen = false
   })
   bus.on(EVENT_KEY.OPEN_COMMENTS, () => {
-    console.log("bus.on(EVENT_KEY.OPEN_COMMENTS")
+    console.log("")
     // if (!state.active) return
     // bus.emit(EVENT_KEY.ENTER_FULLSCREEN)
     // state.commentVisible = true
