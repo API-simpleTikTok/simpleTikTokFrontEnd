@@ -58,6 +58,7 @@ import { _no, _sleep } from '../../utils';
 import { ElMessage } from 'element-plus';
 import axios from 'axios';
 import bcrypt from 'bcryptjs';
+import { useBaseStore } from '@/store/pinia'; // 路径根据实际存放位置调整
 
 const router = useRouter();
 const route = useRoute(); // 获取 route 实例
@@ -81,9 +82,21 @@ watch(() => route.query, (newQuery, oldQuery) => {
   const passwordQuery = route.query.password;
   data.username = Array.isArray(usernameQuery) ? usernameQuery[0] : usernameQuery || '';
   data.password = Array.isArray(passwordQuery) ? passwordQuery[0] : passwordQuery || '';
+
+
 });
+//   const token = localStorage.getItem('token');
+
+    // const store = useBaseStore(); // 获取 Pinia store 实例
+    // if (store.token !== null) {
+    //     router.push('/home');
+    // }
 onMounted(() => {
-  getPhone();
+  // Check if a token exists
+  const token = localStorage.getItem('token');
+
+    getPhone();
+
 });
 
 async function getPhone() {
@@ -103,6 +116,8 @@ function login() {
       localStorage.setItem('tiktokAuthor',data.username)
       localStorage.setItem('tiktokPassword',data.password)
       localStorage.setItem('token',response.data.data.token)
+      const store = useBaseStore(); // 获取 Pinia store 实例
+      store.token = response.data.data.token; // 修改 token
       router.push('/home'); // 使用 router 实例进行导航
     })
     .catch(error => {

@@ -87,11 +87,13 @@ import Slide2 from '@/pages/home/slide/Slide2.vue'
 import Slide4 from '@/pages/home/slide/Slide4.vue'
 import { DefaultUser } from '@/utils/const_var'
 import { _no } from '@/utils'
+import { useRouter, useRoute } from 'vue-router';
 // import LongVideo from '@/pages/home/slide/LongVideo.vue'
 import { useBaseStore } from '@/store/pinia'//状态管理库，来维护和同步前端的状态    当前选中的项(currentItem
 import BaseMask from '@/components/BaseMask.vue'
 
 const nav = useNav()
+const router = useRouter();
 const baseStore = useBaseStore()
 const uploader = ref()
 const isMobile = ref(/Mobi|Android|iPhone/i.test(navigator.userAgent))
@@ -144,6 +146,10 @@ function setCurrentItem(item) {
 }
 
 onMounted(() => {
+    const token = localStorage.getItem('token');// 
+  if(token == null){
+    router.push('/login')
+  }
   bus.on(EVENT_KEY.ENTER_FULLSCREEN, () => {
     if (!state.active) return
     state.fullScreen = true

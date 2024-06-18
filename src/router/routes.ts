@@ -1,23 +1,27 @@
 import Home from '../pages/home/index.vue'
-
 import type { RouteRecordRaw } from 'vue-router'
 
 const routes: RouteRecordRaw[] = [
-  // {path: '/', redirect: '/attention'},
-  { path: '/', redirect: '/login' },// 【刷视频】-->【登录】redirect: '/home'
-  { path: '/publish', component: () => import('@/pages/home/Publish.vue') },// 【发布作品】
+  // 默认重定向到登录页
+  { path: '/', redirect: '/home' },
+  // 发布作品页
+  { path: '/publish', component: () => import('@/pages/home/Publish.vue') },
+  // 首页
   { path: '/home', component: Home },
+  // 个人中心页
   { path: '/me', component: () => import('@/pages/me/Me.vue') },
-  // {path: '/login', component: Login},
+  // 登录页
   { path: '/login', component: () => import('@/pages/login/Login.vue') },
+  // 注册页
   {
     path: '/login/register',
     component: () => import('@/pages/login/Register.vue')
   },
+  // 视频详情页
   {
     path: '/video-detail',
     name: 'video-detail',
-    component: () => import('@/pages/other/VideoDetail.vue')//从一个主页进去的博主的视频
+    component: () => import('@/pages/other/VideoDetail.vue')
   },
 ]
 
