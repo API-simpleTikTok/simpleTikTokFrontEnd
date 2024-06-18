@@ -57,6 +57,7 @@ import { useNav } from '../../utils/hooks/useNav';
 import { _no, _sleep } from '../../utils';
 import { ElMessage } from 'element-plus';
 import axios from 'axios';
+import bcrypt from 'bcryptjs';
 
 const router = useRouter();
 const route = useRoute(); // 获取 route 实例
@@ -92,20 +93,27 @@ async function getPhone() {
 }
 
 function login() {
-  console.log("登录中......author=", data.username, " password=", data.password);
+  console.log("登录中......author=", data.username, " password=", encryptPassword(data.password));
 
   axios.post('http://localhost:3030/session', { author: data.username, password: data.password })
     .then(response => {
       // 处理登录成功的情况
       console.log("登录成功");
-      console.log(response);
+      console.log('token',response.data.token);
       router.push('/home'); // 使用 router 实例进行导航
+      localStorage.setItem('token',response.data.token)
     })
     .catch(error => {
       // 处理登录失败的情况
       ElMessage.error('用户名或密码错误');
       console.error('登录失败:', error);
     });
+}
+
+function encryptPassword(password) {
+  // 加密密码
+  const salt = bcrypt.genSaltSync(10);
+  return bcrypt.hashSync(password, salt);
 }
 </script>
 
