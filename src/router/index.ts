@@ -1,7 +1,7 @@
-import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
-import routes from './routes'
-import { useBaseStore } from '@/store/pinia'
-import { IS_SUB_DOMAIN } from '@/config'
+import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router';
+import routes from './routes';
+import { useBaseStore } from '@/store/pinia';
+import { IS_SUB_DOMAIN } from '@/config';
 
 // 创建 router 实例
 const router = createRouter({
@@ -11,52 +11,49 @@ const router = createRouter({
   scrollBehavior(to, from, savedPosition) {
     // 滚动行为函数，处理页面切换时的滚动位置
     if (savedPosition) {
-      return savedPosition
+      return savedPosition;
     } else {
-      return { top: 0 }
+      return { top: 0 };
     }
   }
-})
+});
 
 // 全局前置守卫
-router.beforeEach((to, from) => {
-  const baseStore = useBaseStore()
+router.beforeEach((to, from, next) => {
+
+  const baseStore = useBaseStore();
   // footer 下面的5个按钮，对跳不要用动画
-  const noAnimation = ['/', '/home', '/me', '/shop', '/message', '/publish', '/home/live', '/test']
+  const noAnimation = ['/', '/home', '/me', '/shop', '/message', '/publish', '/home/live', '/test'];
   if (noAnimation.includes(from.path) && noAnimation.includes(to.path)) {
-    return true
+    return next();
   }
 
-  const toDepth = routes.findIndex((v) => v.path === to.path)
-  const fromDepth = routes.findIndex((v) => v.path === from.path)
+  const toDepth = routes.findIndex((v) => v.path === to.path);
+  const fromDepth = routes.findIndex((v) => v.path === from.path);
 
   // 判断路由深度，确定是前进还是后退
   if (toDepth > fromDepth) {
     if (to.matched && to.matched.length) {
-      const toComponentName = to.matched[0].components?.default.name
-      baseStore.updateExcludeNames({ type: 'remove', value: toComponentName })
-      // console.log('前进')
-      // console.log('删除', toComponentName)
+      const toComponentName = to.matched[0].components?.default.name;
+      baseStore.updateExcludeNames({ type: 'remove', value: toComponentName });
     }
   } else {
     if (from.matched && from.matched.length) {
-      const fromComponentName = from.matched[0].components?.default.name
-      baseStore.updateExcludeNames({ type: 'add', value: fromComponentName })
-      // console.log('后退')
-      // console.log('添加', fromComponentName)
+      const fromComponentName = from.matched[0].components?.default.name;
+      baseStore.updateExcludeNames({ type: 'add', value: fromComponentName });
     }
   }
 
-    // 如果要跳转到home页，检查token
-  if (to.path === '/home' || to.path === '/') {
-    console.log("to---home!!!")
-    const token = localStorage.getItem('token');// 
-    if(token == null){
-        return { path: '/login' }
+  // 如果要跳转到home页，检查token
+  if ((to.path === '/home' || to.path === '/')) {
+    console.log("to---home!!!");
+    const token = localStorage.getItem('token'); 
+    if (token == null) {
+      return next({ path: '/login' });
     }
-
   }
-  return true
-})
 
-export default router
+  return next();
+});
+
+export default router;
