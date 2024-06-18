@@ -85,12 +85,7 @@ watch(() => route.query, (newQuery, oldQuery) => {
 
 
 });
-//   const token = localStorage.getItem('token');
 
-    // const store = useBaseStore(); // 获取 Pinia store 实例
-    // if (store.token !== null) {
-    //     router.push('/home');
-    // }
 onMounted(() => {
   // Check if a token exists
   const token = localStorage.getItem('token');

@@ -8,7 +8,8 @@
       <span v-if="!isRefresh2" :class="{ active: currentTab === 2 }">商城</span>
       <img v-if="isRefresh2" src="../assets/img/icon/refresh1.png" alt="" class="refresh" />
     </div>
-    <div class="l-button" @click="tab(3)">
+    <div class="l-button" :class="{ active: currentTab === 3 }" @click="tab(3)">
+        <!-- @click="tab(3)" -->
       <div class="add-ctn">
         <img src="../assets/img/icon/add-light.png" alt="" class="add" />
       </div>
@@ -55,15 +56,11 @@ export default {
         case 1:
           this.$nav('/')
           break
-        // case 2:
-        //   this.$nav('/shop')
-        //   break
+
         case 3:
           this.$nav('/publish')
           break
-        // case 4:
-        //   this.$nav('/message')
-        //   break
+          
         case 5:
           this.$nav('/me')
           break
