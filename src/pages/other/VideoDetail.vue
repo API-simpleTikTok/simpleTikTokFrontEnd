@@ -2,16 +2,6 @@
   <div id="video-detail">
     <div class="search-wrapper">
       <Icon class="back" icon="icon-park-outline:left" @click="router.back" />
-      <div class="search" @click="nav('/home/search')">
-        <div class="left">
-          <Icon class="icon" icon="ion:search" />
-          <span>搜你想看的</span>
-        </div>
-        <div class="right">
-          <span class="gang">|</span>
-          <span class="txt">搜索</span>
-        </div>
-      </div>
     </div>
     <div class="content">
       <SlideVerticalInfinite
