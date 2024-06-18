@@ -108,13 +108,12 @@ function login() {
       // 处理登录成功的情况
       console.log("登录成功");
       console.log('token',response.data.data.token);
-
+      localStorage.setItem('tiktokAuthor',data.username)
+      localStorage.setItem('tiktokPassword',data.password)
+      localStorage.setItem('token',response.data.data.token)
       const store = useBaseStore(); // 获取 Pinia store 实例
       store.token = response.data.data.token; // 修改 token
-
-      console.log("store.token=",store.token)
       router.push('/home'); // 使用 router 实例进行导航
-      localStorage.setItem('token',response.data.data.tokenn)
     })
     .catch(error => {
       // 处理登录失败的情况

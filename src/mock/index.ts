@@ -149,51 +149,6 @@ export async function startMock() {
   //     }
   //   ]
   // })
-  mock.onGet(/video\/long\/recommended/).reply(async (config) => {
-    const page = getPage2(config.params)
-    return [
-      200,
-      {
-        data: {
-          total: 844,
-          list: allRecommendVideos.slice(page.offset, page.limit)
-        },
-        code: 200,
-        msg: ''
-      }
-    ]
-  })
-
-  mock.onGet(/video\/comments/).reply(async (config) => {
-    const videoIds = [
-      '7260749400622894336',
-      '7128686458763889956',
-      '7293100687989148943',
-      '6923214072347512068',
-      '7005490661592026405',
-      '7161000281575148800',
-      '7267478481213181238',
-      '6686589698707590411',
-      '7321200290739326262',
-      '7194815099381484860',
-      '6826943630775831812',
-      '7110263965858549003',
-      '7295697246132227343',
-      '7270431418822446370',
-      '6882368275695586568',
-      '7000587983069957383'
-    ]
-    let id = config.params.id
-    if (!videoIds.includes(String(id))) {
-      id = videoIds[random(0, videoIds.length - 1)]
-    }
-    const r2 = await _fetch(`${FILE_URL}/comments/video_id_${id}.md`)
-    const v = await r2.json()
-    if (v) {
-      return [200, { data: v, code: 200 }]
-    }
-    return [200, { code: 500 }]
-  })
 
   mock.onGet(/video\/private/).reply(async (config) => {
     const page = getPage2(config.params)
@@ -225,40 +180,40 @@ export async function startMock() {
     ]
   })
 
-  mock.onGet(/video\/my/).reply(async (config) => {
-    const page = getPage2(config.params)
-    console.log('mock我的视频',page)
-    if (!userVideos.length) {
-      // let r = await fetch(BASE_URL + '/data/user-71158770.json')
-      // let r = await fetch(BASE_URL + '/data/user-8357999.json')
-      const r = await _fetch(BASE_URL + '/data/user_video_list/user-12345xiaolaohu.md')
-      const list = await r.json()
-      console.log('list',list)
-      const baseStore = useBaseStore()
-      const userList = cloneDeep(baseStore.users)
-      userVideos = list.map((w) => {
-        if (userList.length) {
-          const item = userList.find((a) => String(a.uid) === String(w.author_user_id))
-          if (item) w.author = item
-        }
-        return w
-      })
-    }
-    console.log('已完成数据',userVideos)
+  // mock.onGet(/video\/my/).reply(async (config) => {
+  //   const page = getPage2(config.params)
+  //   console.log('mock我的视频',page)
+  //   if (!userVideos.length) {
+  //     // let r = await fetch(BASE_URL + '/data/user-71158770.json')
+  //     // let r = await fetch(BASE_URL + '/data/user-8357999.json')
+  //     const r = await _fetch(BASE_URL + '/data/user_video_list/user-12345xiaolaohu.md')
+  //     const list = await r.json()
+  //     console.log('list',list)
+  //     const baseStore = useBaseStore()
+  //     const userList = cloneDeep(baseStore.users)
+  //     userVideos = list.map((w) => {
+  //       if (userList.length) {
+  //         const item = userList.find((a) => String(a.uid) === String(w.author_user_id))
+  //         if (item) w.author = item
+  //       }
+  //       return w
+  //     })
+  //   }
+  //   console.log('已完成数据',userVideos)
 
-    return [
-      200,
-      {
-        data: {
-          pageNo: page.pageNo,
-          total: userVideos.length,
-          list: userVideos.slice(page.offset, page.limit)
-        },
-        code: 200,
-        msg: ''
-      }
-    ]
-  })
+  //   return [
+  //     200,
+  //     {
+  //       data: {
+  //         pageNo: page.pageNo,
+  //         total: userVideos.length,
+  //         list: userVideos.slice(page.offset, page.limit)
+  //       },
+  //       code: 200,
+  //       msg: ''
+  //     }
+  //   ]
+  // })
 
   mock.onGet(/video\/history/).reply(async (config) => {
     const page = getPage2(config.params)

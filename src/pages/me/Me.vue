@@ -478,7 +478,11 @@ export default {
       if (newVal === 3) {
         if (videoOb.video.total === -1) {
           this.loadings['loading' + newVal] = true
-          let res = await userCollect()
+          let res = await myVideo({
+            pageNo: this.videos.my.pageNo,
+            pageSize: this.pageSize,
+            author: localStorage.getItem('tiktokAuthor')
+          })
           console.log('res', res)
           if (res.success) this.videos.collect = res.data
         }
@@ -490,7 +494,8 @@ export default {
             case 0:
               res = await myVideo({
                 pageNo: this.videos.my.pageNo,
-                pageSize: this.pageSize
+                pageSize: this.pageSize,
+                author: localStorage.getItem('tiktokAuthor')
               })
               if (res.success) {
                 console.log('我的视频数据',res.data)
@@ -509,7 +514,10 @@ export default {
                 pageNo: this.videos.like.pageNo,
                 pageSize: this.pageSize
               })
-              if (res.success) this.videos.like = res.data
+              if (res.success) {
+                this.videos.like = res.data
+                console.log('喜欢',res.data)
+              }
               break
           }
         }
@@ -550,7 +558,8 @@ export default {
           case 0:
             res = await myVideo({
               pageNo: videoOb.pageNo,
-              pageSize: this.pageSize
+              pageSize: this.pageSize,
+              author: localStorage.getItem('tiktokAuthor')
             })
             break
           case 1:
@@ -566,9 +575,10 @@ export default {
             })
             break
           case 3:
-            res = await userCollect({
+            res = await myVideo({
               pageNo: videoOb.pageNo,
-              pageSize: this.pageSize
+              pageSize: this.pageSize,
+              author: localStorage.getItem('tiktokAuthor')
             })
             break
         }
