@@ -17,10 +17,13 @@
           <el-button type="primary">点击上传</el-button>
         </el-upload>
       </el-form-item>
+      <el-form-item label="视频标题">
+        <el-input v-model="form.title" placeholder="请输入视频标题"></el-input>
+      </el-form-item>
       <el-form-item label="视频描述">
         <el-input
           type="textarea"
-          v-model="form.description"
+          v-model="form.desc"
           placeholder="请输入视频描述"
           rows="4"
         ></el-input>
@@ -51,7 +54,8 @@ const videoEl = ref<HTMLVideoElement | null>(null)
 const videoUrl = ref<string | null>(null)
 
 const form = ref({
-  description: '',
+  title: '',
+  desc: '',
   videoFile: null as File | null
 })
 
@@ -67,15 +71,21 @@ const handleSubmit = async () => {
     ElMessage.error('请上传视频')
     return
   }
-  if (!form.value.description) {
+  if (!form.value.title) {
+    ElMessage.error('请输入视频标题')
+    return
+  }
+  if (!form.value.desc) {
     ElMessage.error('请输入视频描述')
     return
   }
 
   const formData = new FormData()
   formData.append('video', form.value.videoFile)
-  formData.append('description', form.value.description)
-/* 给后端 发请求之后发到桶里
+  formData.append('title', form.value.title)
+  formData.append('desc', form.value.desc)
+  formData.append('create_time', new Date().toISOString()) // create_time is current time
+
   try {
     const response = await axios.post('/api/upload', formData, {
       headers: {
@@ -92,7 +102,7 @@ const handleSubmit = async () => {
   } catch (error) {
     ElMessage.error('上传过程中出现错误')
     console.error(error)
-  }*/
+  }
 }
 
 onMounted(() => {
