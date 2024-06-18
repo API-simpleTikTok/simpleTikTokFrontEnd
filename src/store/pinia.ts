@@ -16,6 +16,7 @@ export const useBaseStore = defineStore('base', {
       homeRefresh: 60,
       loading: false,
       routeData: null,
+      token : null,
       users: [],
       userinfo: {
         nickname: '',

@@ -3,11 +3,13 @@ import routes from './routes'
 import { useBaseStore } from '@/store/pinia'
 import { IS_SUB_DOMAIN } from '@/config'
 
+// 创建 router 实例
 const router = createRouter({
+  // 根据是否为子域名选择不同的 history 模式
   history: IS_SUB_DOMAIN ? createWebHashHistory() : createWebHistory(),
   routes,
   scrollBehavior(to, from, savedPosition) {
-    // console.log('savedPosition', savedPosition)
+    // 滚动行为函数，处理页面切换时的滚动位置
     if (savedPosition) {
       return savedPosition
     } else {
@@ -15,18 +17,20 @@ const router = createRouter({
     }
   }
 })
+
+// 全局前置守卫
 router.beforeEach((to, from) => {
   const baseStore = useBaseStore()
-  //footer下面的5个按钮，对跳不要用动画
+  // footer 下面的5个按钮，对跳不要用动画
   const noAnimation = ['/', '/home', '/me', '/shop', '/message', '/publish', '/home/live', '/test']
-  if (noAnimation.indexOf(from.path) !== -1 && noAnimation.indexOf(to.path) !== -1) {
+  if (noAnimation.includes(from.path) && noAnimation.includes(to.path)) {
     return true
   }
 
   const toDepth = routes.findIndex((v) => v.path === to.path)
   const fromDepth = routes.findIndex((v) => v.path === from.path)
-  // const fromDepth = routeDeep.indexOf(from.path)
 
+  // 判断路由深度，确定是前进还是后退
   if (toDepth > fromDepth) {
     if (to.matched && to.matched.length) {
       const toComponentName = to.matched[0].components?.default.name
@@ -38,10 +42,19 @@ router.beforeEach((to, from) => {
     if (from.matched && from.matched.length) {
       const fromComponentName = from.matched[0].components?.default.name
       baseStore.updateExcludeNames({ type: 'add', value: fromComponentName })
-
       // console.log('后退')
       // console.log('添加', fromComponentName)
     }
+  }
+
+    // 如果要跳转到home页，检查token
+  if (to.path === '/home' || to.path === '/') {
+    console.log("to---home!!!")
+    const token = localStorage.getItem('token');// 
+    if(token == null){
+        return { path: '/login' }
+    }
+
   }
   return true
 })
