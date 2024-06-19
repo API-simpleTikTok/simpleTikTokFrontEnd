@@ -3,7 +3,7 @@
     <SlideRowList name="baseSlide" style="width: 100%" v-model:active-index="baseActiveIndex">
       <SlideItem>
         <div ref="float" class="float" :class="floatFixed ? 'fixed' : ''">
-          <div :style="floatFixed ? 'opacity: 0;' : ''" class="left" @click="$nav('/me/edit-userinfo')">
+          <div :style="floatFixed ? 'opacity: 0;' : ''" class="left" >
             <Icon icon="ri:edit-fill" />
             <span>编辑资料</span>
           </div>
@@ -66,14 +66,14 @@
                     <span>粉丝</span>
                   </div>
                 </div>
-                <div class="button" >添加朋友</div>
+                <div class="button" @click="logout">登出</div>
               </div>
-              <div class="signature" @click="$nav('/me/edit-userinfo-item', { type: 3 })">
+              <div class="signature" >
                 <template v-if="!userinfo.signature">
                   <span>点击添加介绍，让大家认识你...</span>
                   <img src="../../assets/img/icon/me/write-gray.png" alt="" />
                 </template>
-                <div v-else class="text" v-html="userinfo.signature"></div>
+                <div v-else class="text" v-html="userinfo.signature"></div>  
               </div>
               <div class="more" @click="$nav('/me/edit-userinfo')">
                 <div class="age item" v-if="userinfo.user_age !== -1">
@@ -322,7 +322,9 @@ import { likeVideo, myVideo, privateVideo } from '@/api/videos'
 import { useBaseStore } from '@/store/pinia'
 import { userCollect } from '@/api/user'
 import SlideRowList from '@/components/slide/SlideRowList.vue'
-
+import { useRouter, useRoute } from 'vue-router';
+const router = useRouter();
+const route = useRoute(); // 获取 route 实例
 export default {
   name: 'Me',
   components: { SlideRowList, Posters, Indicator, ConfirmDialog },
@@ -412,7 +414,24 @@ export default {
       this.changeIndex(newVal, oldVal)
     }
   },
+  beforeRouteEnter(to, from, next) {
+    // Fetch username from localStorage before entering the route
+    const username = localStorage.getItem('tiktokAuthor');
+    if (username) {
+      next(vm => {
+        // Assuming userinfo is an object where you store user data
+        vm.userinfo.nickname = username;
+      });
+    } else {
+      next();
+    }
+  },
   mounted() {
+  const username = localStorage.getItem('tiktokAuthor');
+    if (username) {
+      // Assuming userinfo is an object where you store user data
+      this.userinfo.nickname = username;
+    }
     nextTick(() => {
       this.refs.header = this.$refs.header
       this.refs.headerHeight = this.$refs.header.offsetHeight
@@ -434,6 +453,18 @@ export default {
     $nav(path) {
       this.$router.push(path)
     },
+
+        
+    logout() {
+        localStorage.removeItem('tiktokAuthor'); // 删除用户名
+        localStorage.removeItem('tiktokPassword'); // 删除密码（如果需要）
+        localStorage.removeItem('token'); // 删除 token
+
+        const store = useBaseStore(); // 获取 Pinia store 实例
+        store.token = ''; // 清空 token，或者设置为 null 或 undefined，视情况而定
+        this.$nav('/login')
+    },
+
     setLoadingFalse() {
       this.loadings.loading0 = false
       this.loadings.loading1 = false

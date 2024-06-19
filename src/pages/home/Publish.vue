@@ -120,8 +120,29 @@ const handleSubmit = async () => {
       },
       complete(response) {
         console.log('上传完成', response);
-        ElMessage.success('视频上传成功');
+        ElMessage.success('视频上传桶成功');
         // 上传完成后执行后续逻辑，比如跳转页面或更新状态
+        //上传给后端
+        const BASE_BUCKET = "http://sen0fbsqd.hb-bkt.clouddn.com/";
+        console.log("url=",BASE_BUCKET + form.value.videoFile.name)
+        axios.post('http://localhost:3030/video/upload', 
+            { 
+                title: form.value.title,
+                author: localStorage.getItem("tiktokAuthor"), 
+                desc: form.value.desc,
+                // create_time: ,
+                cover: "",
+                url: BASE_BUCKET + form.value.videoFile.name,
+                is_top: 1
+            }).then(response => {
+                //上传成功
+                ElMessage.success('视频上传服务器成功');
+        })
+        .catch(error => {
+            // 处理登录失败的情况
+            ElMessage.error('上传服务器失败哦');
+            console.error('登录失败:', error);
+        });
       }
     });
   } catch (error) {
