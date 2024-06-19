@@ -54,7 +54,7 @@ app.use(VueLazyload, {
 // 路由守卫
 router.beforeEach((to, from, next) => {
   const baseStore = useBaseStore();
-  const token = localStorage.getItem('token')
+  const token = sessionStorage.getItem('token')
   if ((to.path === '/' || to.path === '/home') && !token) {
     console.log('需要登录，跳转到登录页面');
     next('/login');

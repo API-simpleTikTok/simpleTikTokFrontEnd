@@ -54,7 +54,7 @@ onMounted(() => {
 
 function setTriggerTime(type) {
   data.triggerTime = type
-  localStorage.setItem('changeTriggerTime', type)
+  sessionStorage.setItem('changeTriggerTime', type)
 }
 </script>
 

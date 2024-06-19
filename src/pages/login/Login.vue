@@ -88,7 +88,7 @@ watch(() => route.query, (newQuery, oldQuery) => {
 
 onMounted(() => {
   // Check if a token exists
-  const token = localStorage.getItem('token');
+  const token = sessionStorage.getItem('token');
 
     getPhone();
 
@@ -108,9 +108,9 @@ function login() {
       // 处理登录成功的情况
       console.log("登录成功");
       console.log('token',response.data.data.token);
-      localStorage.setItem('tiktokAuthor',data.username)
-      localStorage.setItem('tiktokPassword',data.password)
-      localStorage.setItem('token',response.data.data.token)
+      sessionStorage.setItem('tiktokAuthor',data.username)
+      sessionStorage.setItem('tiktokPassword',data.password)
+      sessionStorage.setItem('token',response.data.data.token)
       const store = useBaseStore(); // 获取 Pinia store 实例
       store.token = response.data.data.token; // 修改 token
       router.push('/home'); // 使用 router 实例进行导航
