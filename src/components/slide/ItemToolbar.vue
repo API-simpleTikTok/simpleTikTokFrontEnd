@@ -35,7 +35,7 @@ function _updateItem(props, key, val) {
 
 function loved() {
   console.log('digg_love',props.item)
-  diggVideo({'isLoved':props.item.isLoved ? !props.item.isLoved : true, 'aweme_id':props.item.video.aweme_id,'author': '1945347711'})
+  diggVideo({'isLoved':props.item.isLoved ? !props.item.isLoved : true, 'aweme_id':props.item.video.aweme_id,'author': sessionStorage.getItem('tiktokAuthor')})
   _updateItem(props, 'isLoved', !props.item.isLoved)
 }
 

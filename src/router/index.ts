@@ -47,7 +47,7 @@ router.beforeEach((to, from, next) => {
   // 如果要跳转到home页，检查token
   if ((to.path === '/home' || to.path === '/')) {
     console.log("to---home!!!");
-    const token = localStorage.getItem('token'); 
+    const token = sessionStorage.getItem('token');
     if (token == null) {
       return next({ path: '/login' });
     }

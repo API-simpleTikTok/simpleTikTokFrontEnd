@@ -2337,7 +2337,7 @@ export default {
     }
   },
   created() {
-    this.history = localStorage.getItem('locationSearchHistory')
+    this.history = sessionStorage.getItem('locationSearchHistory')
   },
   mounted() {
     let indexs = document.querySelectorAll('.index')

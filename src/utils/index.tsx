@@ -9,11 +9,11 @@ import { ArchiveReader, libarchiveWasm } from 'libarchive-wasm'
 import BaseVideo from '@/components/slide/BaseVideo.vue'
 
 export function _storageSet(key, value) {
-  localStorage.setItem(key, JSON.stringify(value))
+  sessionStorage.setItem(key, JSON.stringify(value))
 }
 
 export function _storageGet(key, defaultValue = '') {
-  const res = localStorage.getItem(key)
+  const res = sessionStorage.getItem(key)
   if (res) {
     return JSON.parse(res)
   }
@@ -236,7 +236,7 @@ export function _showSelectDialog(sexList, cb) {
 
 export function _showSimpleConfirmDialog(title, okCb, cancelCb, okText, cancelText) {
   if (!cancelCb) {
-    cancelCb = () => {}
+    cancelCb = () => { }
   }
   const remove = () => {
     const parent = document.querySelector('.dialog-ctn')
@@ -245,7 +245,7 @@ export function _showSimpleConfirmDialog(title, okCb, cancelCb, okText, cancelTe
       parent.remove()
     }, 300)
   }
-  const tempOkCb = (e?:any) => {
+  const tempOkCb = (e?: any) => {
     remove()
     okCb(e)
   }

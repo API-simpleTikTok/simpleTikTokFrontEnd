@@ -90,7 +90,7 @@ const data = reactive({
 
 onMounted(() => {
   data.type = ~~route.query.type
-  let triggerTime = localStorage.getItem('changeTriggerTime')
+  let triggerTime = sessionStorage.getItem('changeTriggerTime')
   if (triggerTime !== null) data.triggerTime = Number(triggerTime)
 })
 </script>

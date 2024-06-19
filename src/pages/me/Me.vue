@@ -3,7 +3,7 @@
     <SlideRowList name="baseSlide" style="width: 100%" v-model:active-index="baseActiveIndex">
       <SlideItem>
         <div ref="float" class="float" :class="floatFixed ? 'fixed' : ''">
-          <div :style="floatFixed ? 'opacity: 0;' : ''" class="left" >
+          <div :style="floatFixed ? 'opacity: 0;' : ''" class="left">
             <Icon icon="ri:edit-fill" />
             <span>编辑资料</span>
           </div>
@@ -512,7 +512,7 @@ export default {
           let res = await myVideo({
             pageNo: this.videos.my.pageNo,
             pageSize: this.pageSize,
-            author: localStorage.getItem('tiktokAuthor')
+            author: sessionStorage.getItem('tiktokAuthor')
           })
           console.log('res', res)
           if (res.success) this.videos.collect = res.data
@@ -526,7 +526,7 @@ export default {
               res = await myVideo({
                 pageNo: this.videos.my.pageNo,
                 pageSize: this.pageSize,
-                author: localStorage.getItem('tiktokAuthor')
+                author: sessionStorage.getItem('tiktokAuthor')
               })
               if (res.success) {
                 console.log('我的视频数据',res.data)
@@ -534,16 +534,17 @@ export default {
               }
               break
             case 1:
-              res = await privateVideo({
-                pageNo: this.videos.private.pageNo,
-                pageSize: this.pageSize
-              })
-              if (res.success) this.videos.private = res.data
+              // res = await privateVideo({
+              //   pageNo: this.videos.private.pageNo,
+              //   pageSize: this.pageSize,
+              // })
+              // if (res.success) this.videos.private = res.data
               break
             case 2:
               res = await likeVideo({
                 pageNo: this.videos.like.pageNo,
-                pageSize: this.pageSize
+                pageSize: this.pageSize,
+                author: sessionStorage.getItem('tiktokAuthor')
               })
               if (res.success) {
                 this.videos.like = res.data
@@ -590,7 +591,7 @@ export default {
             res = await myVideo({
               pageNo: videoOb.pageNo,
               pageSize: this.pageSize,
-              author: localStorage.getItem('tiktokAuthor')
+              author: sessionStorage.getItem('tiktokAuthor')
             })
             break
           case 1:
@@ -609,7 +610,7 @@ export default {
             res = await myVideo({
               pageNo: videoOb.pageNo,
               pageSize: this.pageSize,
-              author: localStorage.getItem('tiktokAuthor')
+              author: sessionStorage.getItem('tiktokAuthor')
             })
             break
         }

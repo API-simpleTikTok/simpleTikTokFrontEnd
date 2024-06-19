@@ -61,8 +61,9 @@ export const useBaseStore = defineStore('base', {
   },
   actions: {
     async init() {
-      const r = await panel()
+      const r = await panel({author:sessionStorage.getItem('tiktokAuthor')})
       if (r.success) {
+        console.log('个人信息', r.data)
         this.userinfo = Object.assign(this.userinfo, r.data)
       }
       const r2 = await friends()

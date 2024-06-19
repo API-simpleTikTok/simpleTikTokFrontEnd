@@ -165,49 +165,14 @@ export async function startMock() {
     ]
   })
 
-  mock.onGet(/video\/like/).reply(async (config) => {
-    const page = getPage2(config.params)
-    return [
-      200,
-      {
-        data: {
-          total: 150,
-          list: allRecommendVideos.slice(200, 350).slice(page.offset, page.limit)
-        },
-        code: 200,
-        msg: ''
-      }
-    ]
-  })
-
-  // mock.onGet(/video\/my/).reply(async (config) => {
+  // mock.onGet(/video\/like/).reply(async (config) => {
   //   const page = getPage2(config.params)
-  //   console.log('mock我的视频',page)
-  //   if (!userVideos.length) {
-  //     // let r = await fetch(BASE_URL + '/data/user-71158770.json')
-  //     // let r = await fetch(BASE_URL + '/data/user-8357999.json')
-  //     const r = await _fetch(BASE_URL + '/data/user_video_list/user-12345xiaolaohu.md')
-  //     const list = await r.json()
-  //     console.log('list',list)
-  //     const baseStore = useBaseStore()
-  //     const userList = cloneDeep(baseStore.users)
-  //     userVideos = list.map((w) => {
-  //       if (userList.length) {
-  //         const item = userList.find((a) => String(a.uid) === String(w.author_user_id))
-  //         if (item) w.author = item
-  //       }
-  //       return w
-  //     })
-  //   }
-  //   console.log('已完成数据',userVideos)
-
   //   return [
   //     200,
   //     {
   //       data: {
-  //         pageNo: page.pageNo,
-  //         total: userVideos.length,
-  //         list: userVideos.slice(page.offset, page.limit)
+  //         total: 150,
+  //         list: allRecommendVideos.slice(200, 350).slice(page.offset, page.limit)
   //       },
   //       code: 200,
   //       msg: ''
@@ -260,17 +225,6 @@ export async function startMock() {
     return [200, { code: 500 }]
   })
 
-  mock.onGet(/user\/panel/).reply(async () => {
-    const r2 = await _fetch(BASE_URL + '/data/users.md')
-    const v = await r2.json()
-    // let item = v.find(a => a.uid === '68310389333')
-    // let item = v.find(a => a.uid === '59054327754')
-    const item = v.find((a) => a.uid === '2739632844317827')
-    if (item) {
-      return [200, { data: item, code: 200 }]
-    }
-    return [200, { code: 500 }]
-  })
 
   mock.onGet(/user\/friends/).reply(async () => {
     const r2 = await _fetch(BASE_URL + '/data/users.md')
