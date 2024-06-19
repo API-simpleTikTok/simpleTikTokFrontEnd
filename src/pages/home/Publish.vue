@@ -45,7 +45,7 @@ import { ElMessage } from 'element-plus'
 import BaseFooter from '../../components/BaseFooter.vue'
 import axios from 'axios'
 import * as qiniu from 'qiniu-js'
-
+import moment from 'moment';
 defineOptions({
   name: 'Publish'
 })
@@ -92,7 +92,7 @@ const handleSubmit = async () => {
   try {
     // 获得token
     // const author = "guwodianying"
-    const author = localStorage.getItem("tiktokAuthor")
+    const author = sessionStorage.getItem("tiktokAuthor")
     console.log("author=",author)
     const res = await axios.get(`http://localhost:3030/user/getUploadToken?author=${author}`);
     console.log("res.data.data=",res.data.data)
@@ -125,15 +125,18 @@ const handleSubmit = async () => {
         //上传给后端
         const BASE_BUCKET = "http://sen0fbsqd.hb-bkt.clouddn.com/";
         console.log("url=",BASE_BUCKET + form.value.videoFile.name)
+        //生成时间
+        const currentTime = moment().format('YYYY-MM-DD HH:mm:ss');
+        console.log(currentTime);
         axios.post('http://localhost:3030/video/upload', 
             { 
                 title: form.value.title,
-                author: localStorage.getItem("tiktokAuthor"), 
+                author: sessionStorage.getItem("tiktokAuthor"), 
                 desc: form.value.desc,
-                // create_time: ,
                 cover: "",
                 url: BASE_BUCKET + form.value.videoFile.name,
-                is_top: 1
+                isTop: 1,
+                createTime: currentTime
             }).then(response => {
                 //上传成功
                 ElMessage.success('视频上传服务器成功');

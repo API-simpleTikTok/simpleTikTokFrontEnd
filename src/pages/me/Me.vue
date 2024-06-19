@@ -110,78 +110,86 @@
               </div>
             </div>
           </div>
-          <Indicator name="videoList" tabStyleWidth="25%" :tabTexts="['作品', '私密', '喜欢', '收藏']"
-            v-model:active-index="contentIndex">
-          </Indicator>
-          <SlideRowList ref="videoSlideRowList" name="videoList" :style="videoSlideRowListStyle"
-            v-model:active-index="contentIndex">
-            <SlideItem class="SlideItem" @scroll="scroll" :style="SlideItemStyle">
-              <Posters v-if="videos.my.total !== -1" :list="videos.my.list"></Posters>
-              <Loading v-if="loadings.loading0" :is-full-screen="false"></Loading>
-              <no-more v-else />
-            </SlideItem>
-            <SlideItem class="SlideItem" @scroll="scroll" :style="SlideItemStyle">
-              <div class="notice">
-                <img src="../../assets/img/icon/me/lock-gray.png" alt="" />
-                <span>只有你能看到设为私密的作品和日常</span>
-              </div>
-              <Posters v-if="videos.private.total !== -1" mode="date" :list="videos.private.list"></Posters>
-              <Loading v-if="loadings.loading1" :is-full-screen="false"></Loading>
-              <no-more v-else />
-            </SlideItem>
-            <SlideItem class="SlideItem" @scroll="scroll" :style="SlideItemStyle">
-              <div class="notice">
-                <img src="../../assets/img/icon/me/lock-gray.png" alt="" />
-                <span>只有你能看到自己的喜欢列表</span>
-              </div>
-              <Posters v-if="videos.like.total !== -1" :list="videos.like.list"></Posters>
-              <Loading v-if="loadings.loading2" :is-full-screen="false"></Loading>
-              <no-more v-else />
-            </SlideItem>
-            <SlideItem class="SlideItem" @scroll="scroll" :style="SlideItemStyle">
-              <div class="notice">
-                <img src="../../assets/img/icon/me/lock-gray.png" alt="" />
-                <span>只有你能看到自己的收藏列表</span>
-              </div>
-              <div class="collect" ref="collect">
-                <div class="video" v-if="videos.collect.video.total !== -1">
-                  <div class="top" @click="$nav('/me/collect/video-collect')">
-                    <div class="left">
-                      <img src="../../assets/img/icon/me/video-whitegray.png" alt="" />
-                      <span>视频</span>
-                    </div>
-                    <div class="right">
-                      <span>全部</span>
-                      <dy-back direction="right"></dy-back>
-                    </div>
-                  </div>
-                  <Posters v-if="videos.collect.video.total !== -1" :list="videos.collect.video.list"></Posters>
-                </div>
 
-                <div class="music" v-if="videos.collect.music.total !== -1">
-                  <div class="top" @click="$nav('/me/collect/music-collect')">
-                    <div class="left">
-                      <img src="../../assets/img/icon/me/music-whitegray.png" alt="" />
-                      <span>音乐</span>
-                    </div>
-                    <div class="right">
-                      <span>全部</span>
-                      <dy-back direction="right"></dy-back>
-                    </div>
-                  </div>
-                  <div class="list">
-                    <div class="item" @click.stop="$nav('/home/music', i)" :key="j"
-                      v-for="(i, j) in videos.collect.music.list.slice(0, 3)">
-                      <img class="poster" :src="_checkImgUrl(i.cover)" alt="" />
-                      <div class="title">{{ i.name }}</div>
-                    </div>
-                  </div>
+        <Indicator name="videoList" tabStyleWidth="25%" :tabTexts="['作品', '私密', '喜欢', '收藏']" v-model:active-index="contentIndex">
+        </Indicator>
+        <SlideRowList ref="videoSlideRowList" name="videoList" :style="videoSlideRowListStyle" v-model:active-index="contentIndex">
+
+        <SlideItem class="SlideItem" @scroll="scroll" :style="SlideItemStyle">
+            <Posters
+            v-if="videos.my.total !== -1"
+            :list="videos.my.list"
+            :showDeleteButton="true"
+            @delete="handleDelete"
+            ></Posters>
+            <Loading v-if="loadings.loading0" :is-full-screen="false"></Loading>
+            <no-more v-else />
+        </SlideItem>
+
+        <SlideItem class="SlideItem" @scroll="scroll" :style="SlideItemStyle">
+            <div class="notice">
+            <img src="../../assets/img/icon/me/lock-gray.png" alt="" />
+            <span>只有你能看到设为私密的作品和日常</span>
+            </div>
+            <Posters v-if="videos.private.total !== -1" mode="date" :list="videos.private.list" :showDeleteButton="false"></Posters>
+            <Loading v-if="loadings.loading1" :is-full-screen="false"></Loading>
+            <no-more v-else />
+        </SlideItem>
+
+        <SlideItem class="SlideItem" @scroll="scroll" :style="SlideItemStyle">
+            <div class="notice">
+            <img src="../../assets/img/icon/me/lock-gray.png" alt="" />
+            <span>只有你能看到自己的喜欢列表</span>
+            </div>
+            <Posters v-if="videos.like.total !== -1" :list="videos.like.list" :showDeleteButton="false"></Posters>
+            <Loading v-if="loadings.loading2" :is-full-screen="false"></Loading>
+            <no-more v-else />
+        </SlideItem>
+
+        <SlideItem class="SlideItem" @scroll="scroll" :style="SlideItemStyle">
+            <div class="notice">
+            <img src="../../assets/img/icon/me/lock-gray.png" alt="" />
+            <span>只有你能看到自己的收藏列表</span>
+            </div>
+            <div class="collect" ref="collect">
+            <div class="video" v-if="videos.collect.video.total !== -1">
+                <div class="top" @click="$nav('/me/collect/video-collect')">
+                <div class="left">
+                    <img src="../../assets/img/icon/me/video-whitegray.png" alt="" />
+                    <span>视频</span>
                 </div>
-              </div>
-              <Loading v-if="loadings.loading3" :is-full-screen="false"></Loading>
-              <no-more v-else />
-            </SlideItem>
-          </SlideRowList>
+                <div class="right">
+                    <span>全部</span>
+                    <dy-back direction="right"></dy-back>
+                </div>
+                </div>
+                <Posters v-if="videos.collect.video.total !== -1" :list="videos.collect.video.list" :showDeleteButton="false"></Posters>
+            </div>
+
+            <div class="music" v-if="videos.collect.music.total !== -1">
+                <div class="top" @click="$nav('/me/collect/music-collect')">
+                <div class="left">
+                    <img src="../../assets/img/icon/me/music-whitegray.png" alt="" />
+                    <span>音乐</span>
+                </div>
+                <div class="right">
+                    <span>全部</span>
+                    <dy-back direction="right"></dy-back>
+                </div>
+                </div>
+                <div class="list">
+                <div class="item" @click.stop="$nav('/home/music', i)" :key="j" v-for="(i, j) in videos.collect.music.list.slice(0, 3)">
+                    <img class="poster" :src="_checkImgUrl(i.cover)" alt="" />
+                    <div class="title">{{ i.name }}</div>
+                </div>
+                </div>
+            </div>
+            </div>
+            <Loading v-if="loadings.loading3" :is-full-screen="false"></Loading>
+            <no-more v-else />
+        </SlideItem>
+        </SlideRowList>
+
         </div>
         <BaseFooter v-bind:init-tab="5" />
         <transition name="fade">
@@ -314,7 +322,7 @@ import Posters from '../../components/Posters'
 import Indicator from '../../components/slide/Indicator'
 import { nextTick } from 'vue'
 import { mapState } from 'pinia'
-
+import axios from 'axios';
 import bus from '../../utils/bus'
 import ConfirmDialog from '../../components/dialog/ConfirmDialog'
 import { _checkImgUrl, _formatNumber, _getUserDouyinId, _no, _stopPropagation } from '@/utils'
@@ -323,8 +331,7 @@ import { useBaseStore } from '@/store/pinia'
 import { userCollect } from '@/api/user'
 import SlideRowList from '@/components/slide/SlideRowList.vue'
 import { useRouter, useRoute } from 'vue-router';
-const router = useRouter();
-const route = useRoute(); // 获取 route 实例
+
 export default {
   name: 'Me',
   components: { SlideRowList, Posters, Indicator, ConfirmDialog },
@@ -415,8 +422,8 @@ export default {
     }
   },
   beforeRouteEnter(to, from, next) {
-    // Fetch username from localStorage before entering the route
-    const username = localStorage.getItem('tiktokAuthor');
+    // Fetch username from sessionStorage before entering the route
+    const username = sessionStorage.getItem('tiktokAuthor');
     if (username) {
       next(vm => {
         // Assuming userinfo is an object where you store user data
@@ -427,7 +434,7 @@ export default {
     }
   },
   mounted() {
-  const username = localStorage.getItem('tiktokAuthor');
+  const username = sessionStorage.getItem('tiktokAuthor');
     if (username) {
       // Assuming userinfo is an object where you store user data
       this.userinfo.nickname = username;
@@ -446,6 +453,7 @@ export default {
     bus.on('baseSlide-end', () => (this.canScroll = true))
   },
   methods: {
+  //其他方法
     _no,
     _getUserDouyinId,
     _checkImgUrl,
@@ -454,11 +462,35 @@ export default {
       this.$router.push(path)
     },
 
-        
+    handleDelete(index) {
+      // Confirm deletion and update the list
+      console.log("DELETE index=",index)//0 1 2 3
+      console.log("this.videos.my.list[index].aweme_id=",this.videos.my.list[index].aweme_id)
+
+    // 请求删除
+      axios.delete('http://localhost:3030/user/deleteVideo', {
+            params: {
+                author: sessionStorage.getItem('tiktokAuthor'),
+                aweme_id: this.videos.my.list[index].aweme_id
+            }
+        }).then(response => {
+            // 处理注册成功的情况
+            console.log("删除成功！")
+            this.videos.my.list.splice(index, 1); // 使用 splice 方法移除指定索引的元素
+            this.videos.my.total--; 
+        })
+        .catch(error => {
+            console.error('注册失败:', error);
+        });
+    },
+
+    updateVideoList(newList) {
+      this.videos.my.list = newList;
+    },
     logout() {
-        localStorage.removeItem('tiktokAuthor'); // 删除用户名
-        localStorage.removeItem('tiktokPassword'); // 删除密码（如果需要）
-        localStorage.removeItem('token'); // 删除 token
+        sessionStorage.removeItem('tiktokAuthor'); // 删除用户名
+        sessionStorage.removeItem('tiktokPassword'); // 删除密码（如果需要）
+        sessionStorage.removeItem('token'); // 删除 token
 
         const store = useBaseStore(); // 获取 Pinia store 实例
         store.token = ''; // 清空 token，或者设置为 null 或 undefined，视情况而定
@@ -523,13 +555,14 @@ export default {
           let res
           switch (newVal) {
             case 0:
+                //获得我的数据
               res = await myVideo({
                 pageNo: this.videos.my.pageNo,
                 pageSize: this.pageSize,
                 author: sessionStorage.getItem('tiktokAuthor')
               })
               if (res.success) {
-                console.log('我的视频数据',res.data)
+                console.log('我的视频数据',res.data) // this.videos.my.list[index]
                 this.videos.my = res.data
               }
               break

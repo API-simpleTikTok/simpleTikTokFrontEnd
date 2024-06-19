@@ -1,6 +1,6 @@
 <template>
   <div class="posters">
-    <div class="poster-item" :key="index" v-for="(i, index) in list" @click="goDetail(index,i)">
+    <div class="poster-item" :key="index" v-for="(i, index) in list" @click="goDetail(index, i)">
       <img class="poster" v-lazy="i.video.cover.url_list" alt="" />
       <template v-if="mode === 'normal'">
         <div class="num">
@@ -16,6 +16,8 @@
       <template v-if="mode === 'music'">
         <div class="music" v-if="index === 0">首发</div>
       </template>
+      <!-- Conditionally render delete button -->
+      <button v-if="showDeleteButton" class="delete-button" @click.stop="confirmDelete(index)">x</button>
     </div>
   </div>
 </template>
@@ -25,27 +27,31 @@ import { _checkImgUrl, _formatNumber } from '@/utils'
 import { useBaseStore } from '@/store/pinia'
 import { useRouter } from 'vue-router'
 import { cloneDeep } from '@/utils'
+import { defineProps, defineOptions, defineEmits } from 'vue'
 
 const store = useBaseStore()
 const nav = useRouter()
 const props = defineProps({
   list: {
     type: [Array, Number],
-    default: () => {
-      return []
-    }
+    default: () => []
   },
   mode: {
     type: String,
-    default: 'normal' //date,music
+    default: 'normal' // date, music
+  },
+  showDeleteButton: {
+    type: Boolean,
+    default: false
   }
 })
+const emit = defineEmits(['delete'])
 
 defineOptions({
   name: 'Posters'
 })
 
-function goDetail(index,i) {
+function goDetail(index, i) {
   store.routeData = cloneDeep({ list: props.list, index })
   nav.push({ path: '/video-detail' })
 }
@@ -59,30 +65,24 @@ function getMonth(time) {
   let date = new Date(time * 1000)
   let month = date.getMonth() + 1
   switch (month) {
-    case 1:
-      return '一月'
-    case 2:
-      return '二月'
-    case 3:
-      return '三月'
-    case 4:
-      return '四月'
-    case 5:
-      return '五月'
-    case 6:
-      return '六月'
-    case 7:
-      return '七月'
-    case 8:
-      return '八月'
-    case 9:
-      return '九月'
-    case 10:
-      return '十月'
-    case 11:
-      return '十一月'
-    case 12:
-      return '十二月'
+    case 1: return '一月'
+    case 2: return '二月'
+    case 3: return '三月'
+    case 4: return '四月'
+    case 5: return '五月'
+    case 6: return '六月'
+    case 7: return '七月'
+    case 8: return '八月'
+    case 9: return '九月'
+    case 10: return '十月'
+    case 11: return '十一月'
+    case 12: return '十二月'
+  }
+}
+
+function confirmDelete(index) {
+  if (confirm("是否确定删除?")) {
+    emit('delete', index)
   }
 }
 </script>
@@ -156,6 +156,23 @@ function getMonth(time) {
     .month {
       font-size: 10rem;
     }
+  }
+
+  .delete-button {
+    position: absolute;
+    top: 5rem;
+    right: 5rem;
+    background: rgb(6, 46, 63);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 30rem;
+    height: 30rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 16rem;
   }
 }
 </style>
