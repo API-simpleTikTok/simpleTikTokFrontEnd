@@ -44,6 +44,7 @@ import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import BaseFooter from '../../components/BaseFooter.vue'
 import axios from 'axios'
+import * as qiniu from 'qiniu-js'
 
 defineOptions({
   name: 'Publish'
@@ -67,6 +68,8 @@ const handleFileChange = (file: File) => {
 }
 
 const handleSubmit = async () => {
+
+    
   if (!form.value.videoFile) {
     ElMessage.error('请上传视频')
     return
@@ -87,18 +90,40 @@ const handleSubmit = async () => {
   formData.append('create_time', new Date().toISOString()) // create_time is current time
 
   try {
-    const response = await axios.post('/api/upload', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
+    // 获得token
+    // const author = "guwodianying"
+    const author = localStorage.getItem("tiktokAuthor")
+    console.log("author=",author)
+    const res = await axios.get(`http://localhost:3030/user/getUploadToken?author=${author}`);
+    console.log("res.data.data=",res.data.data)
+    const uploadToken = res.data.data.data.upToken;
+      // 配置上传参数
+    console.log("uploadToken=",uploadToken)
+    const putExtra = {
+      fname: form.value.videoFile.name,
+      params: {},
+    //   mimeType: ["video/*"] // 只允许上传视频类型
+    };
+    const config = {
+    //   useCdnDomain: true,//表示是否使用 cdn 加速域名
+      region: qiniu.region.z1 // 根据你选择的区域设置
+    };
+      const observable = qiniu.upload(form.value.videoFile, form.value.videoFile.name, uploadToken, putExtra, config);
+      //上传
+          observable.subscribe({
+      next(response) {
+        console.log('上传中...', response);
+      },
+      error(err) {
+        console.error('上传失败', err);
+        ElMessage.error('视频上传失败');
+      },
+      complete(response) {
+        console.log('上传完成', response);
+        ElMessage.success('视频上传成功');
+        // 上传完成后执行后续逻辑，比如跳转页面或更新状态
       }
-    })
-
-    if (response.data.success) {
-      ElMessage.success('上传成功')
-      router.push('/home')
-    } else {
-      ElMessage.error('上传失败')
-    }
+    });
   } catch (error) {
     ElMessage.error('上传过程中出现错误')
     console.error(error)
