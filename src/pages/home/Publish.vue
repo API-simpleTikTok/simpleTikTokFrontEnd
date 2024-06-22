@@ -140,7 +140,11 @@ const handleSubmit = async () => {
                 url: BASE_BUCKET + form.value.videoFile.name,
                 isTop: 1,
                 createTime: currentTime
-            }).then(response => {
+            },
+            {headers:{
+      'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
+    }}
+          ).then(response => {
                 //上传成功
                 ElMessage.success('视频上传服务器成功');
         })
