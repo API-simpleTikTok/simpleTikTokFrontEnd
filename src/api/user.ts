@@ -1,5 +1,13 @@
 import { request } from '@/utils/request'
 
+
+//获得二维码
+export function getQRcode(params?: any, data?: any) {
+  return request({ url: '/user/bindingGoogleTwoFactorValidate', method: 'get', params, data, headers: { 'Authorization': 'Bearer ' + sessionStorage.getItem('token'), } })
+}
+
+//登录
+
 export function userinfo(params?: any, data?: any) {
   return request({ url: '/user/userinfo', method: 'get', params, data, headers: { 'Authorization': 'Bearer ' + sessionStorage.getItem('token'), } })
 }

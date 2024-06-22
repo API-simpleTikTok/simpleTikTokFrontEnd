@@ -6,6 +6,7 @@ import resource from '@/assets/data/resource'
 export const useBaseStore = defineStore('base', {
   state: () => {
     return {
+      base_url:'https://localhost:3030',
       bodyHeight: document.body.clientHeight,
       bodyWidth: document.body.clientWidth,
       maskDialog: false,

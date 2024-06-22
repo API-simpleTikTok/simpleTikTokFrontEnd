@@ -1,7 +1,7 @@
 export default {
-  baseUrl: 'http://127.0.0.1:3030',
+  baseUrl: 'https://localhost:3030',//'https://127.0.0.1:3030',
   imgPath: '/imgs/',
-  filePreview: 'http://192.168.0.103/static/uploads/'
+  filePreview: 'https://192.168.0.103/static/uploads/'
 }
 const BASE_URL_MAP = {
   DEV: '',

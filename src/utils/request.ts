@@ -1,10 +1,14 @@
 import axios, { type AxiosError, type AxiosRequestConfig, type AxiosResponse } from 'axios'
 import config from '@/config'
 import { _notice } from './index'
+// import * as https from 'https';
 
 export const axiosInstance = axios.create({
   baseURL: config.baseUrl,
-  timeout: 60000
+  timeout: 60000,
+//     httpsAgent: new https.Agent({  
+//     rejectUnauthorized: false // 添加这一行来忽略SSL错误
+//   })
 })
 
 // request拦截器

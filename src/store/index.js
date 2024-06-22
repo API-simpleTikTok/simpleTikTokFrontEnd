@@ -9,7 +9,8 @@ export default new Vuex.Store({
     registeredUser: {
       username: '',
       password: ''
-    }
+    },
+    
   },
   mutations: {
     setRegisteredUser(state, payload) {

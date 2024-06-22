@@ -53,6 +53,8 @@ import LoginInput from './components/LoginInput'
 import Tooltip from './components/Tooltip'
 import Base from './Base'
 import axios from 'axios';
+import { ElMessageBox, ElMessage } from 'element-plus';
+import { useBaseStore } from '@/store/pinia'; 
 export default {
   name: 'PasswordRegister',
   extends: Base,
@@ -90,20 +92,27 @@ export default {
         return;
       }
       this.loading = true;
-      // 这里添加注册逻辑
-      console.log("author=", this.username, "password=", this.password);
-       axios.post('http://localhost:3030/user/sign', { author: this.username, password: this.password, confirmedPassword: this.password })
+      console.log("author=", this.username, "password=", this.password);//https://localhost:3030
+       axios.post(useBaseStore().base_url+'/user/sign', { author: this.username, password: this.password })
         .then(response => {
             // 处理注册成功的情况
-            console.log("注册成功!")
-            // this.$router.push('/login'); 
+            
+            console.log("注册response=",response,response.data.code, response.data.code !== 200)
+        if (response.data.code !== 200) {
+            console.error('Error:', response.data.msg);
+            ElMessage.error(response.data.msg);
+        } else {
+           ElMessage.success("注册成功");
             this.$router.push({ 
-              path: '/login', 
-              query: { username: this.username, password: this.password }
+                path: '/login', 
+                query: { username: this.username, password: this.password }
             }); 
+        }
+
         })
         .catch(error => {
             // 处理注册失败的情况
+            ElMessage.error(error);
             console.error('注册失败:', error);
         });
     }

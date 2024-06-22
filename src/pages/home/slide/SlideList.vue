@@ -84,7 +84,7 @@ async function getData(refresh = false) {
   if (baseStore.loading) return
   baseStore.loading = true
   let res = await props.api({
-    author: '1945347711',
+    author: sessionStorage.getItem("tiktokAuthor"),//'1945347711',
     start: refresh ? 0 : state.list.length,
     pageSize: state.pageSize
   })

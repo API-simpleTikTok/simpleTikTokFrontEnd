@@ -2,16 +2,23 @@
   <div class="login">
     <BaseHeader mode="light" backMode="dark" backImg="close">
     </BaseHeader>
-    <Loading v-if="data.loading.getPhone" />
-    <div v-else class="content">
+
+
+    <div  class="content">
       <div class="desc">
         <div class="title" style="font-size:20px">登录看朋友内容</div>
         <div class="form">
           <label for="data.username">账号</label>
-          <input v-model="data.username" type="text" placeholder="请输入账号" id="username" class="input" />
-
+          <div style="display: flex; align-items: center;">
+            <input v-model="data.username" type="text" placeholder="请输入账号" id="username" class="input" style="width: 80%;" />
+            <dy-button type="primary" style="width: 40%; margin: 0 0 25px;margin-left: 10px;" @click="getQR">获取验证 </dy-button>
+          </div>
+          
           <label for="data.password">密码</label>
           <input v-model="data.password" type="password" placeholder="请输入密码" id="password" class="input" />
+
+          <label for="data.repassword">二次验证码</label>
+          <input v-model="data.repassword" type="text" placeholder="请输入二次验证码" id="repassword" class="input" />
         </div>
       </div>
       <dy-button
@@ -44,6 +51,7 @@
         </div>
       </div>
     </div>
+
   </div>
 </template>
 
@@ -51,28 +59,34 @@
 import Check from '../../components/Check.vue';
 import { useRouter, useRoute } from 'vue-router';
 import Tooltip from './components/Tooltip.vue';
-import Loading from '../../components/Loading.vue';
 import { onMounted, reactive, watch } from 'vue';
 import { useNav } from '../../utils/hooks/useNav';
 import { _no, _sleep } from '../../utils';
-import { ElMessage } from 'element-plus';
+
 import axios from 'axios';
 import bcrypt from 'bcryptjs';
 import { useBaseStore } from '@/store/pinia'; // 路径根据实际存放位置调整
+import { ElMessageBox, ElMessage } from 'element-plus';
+import { getQRcode,} from '@/api/user'
+
+
 
 const router = useRouter();
 const route = useRoute(); // 获取 route 实例
 
 const nav = useNav();
 const data = reactive({
+  QRvisible:false,
+  qrCodeBase64 :'',
   username:  '',
   password: '', 
+  repassword: '',
   isAgree: false,
   showAnim: false,
   showTooltip: false,
   loading: {
     login: false,
-    getPhone: false
+
   }
 });
 // 使用 watch 监听路由参数的变化
@@ -83,44 +97,89 @@ watch(() => route.query, (newQuery, oldQuery) => {
   data.username = Array.isArray(usernameQuery) ? usernameQuery[0] : usernameQuery || '';
   data.password = Array.isArray(passwordQuery) ? passwordQuery[0] : passwordQuery || '';
 
-
 });
 
 onMounted(() => {
   // Check if a token exists
   const token = sessionStorage.getItem('token');
 
-    getPhone();
+
 
 });
 
-async function getPhone() {
-  data.loading.getPhone = true;
-  await _sleep(1000);
-  data.loading.getPhone = false;
-}
 
 function login() {
-  console.log("登录中......author=", data.username, " password=", encryptPassword(data.password));
-
-  axios.post('http://localhost:3030/session', { author: data.username, password: data.password })
+    // 二重验证
+      console.log("base_url=",useBaseStore().base_url)
+  console.log("登录中......author=", data.username, " password=", data.password, " twoFactorCode="+data.repassword);
+  axios.post(useBaseStore().base_url+'/session', { author: data.username, password: data.password, twoFactorCode:data.repassword }, {
+    })
     .then(response => {
+        if (response.data.code !== 200) {
+            console.error('Error:', response.data.msg);
+            ElMessage.error(response.data.msg);
+        } else {
+           ElMessage.success("登录成功");
+            sessionStorage.setItem('tiktokAuthor',data.username)
+            sessionStorage.setItem('token',response.data.data.token)
+            const store = useBaseStore(); // 获取 Pinia store 实例
+            store.token = response.data.data.token; // 修改 token
+            router.push('/home'); // 使用 router 实例进行导航
+        }
       // 处理登录成功的情况
-      console.log("登录成功");
-      console.log('token',response.data.data.token);
-      sessionStorage.setItem('tiktokAuthor',data.username)
-      // sessionStorage.setItem('tiktokPassword',data.password)
-      sessionStorage.setItem('token',response.data.data.token)
-      const store = useBaseStore(); // 获取 Pinia store 实例
-      store.token = response.data.data.token; // 修改 token
-      router.push('/home'); // 使用 router 实例进行导航
+      
+
+     
     })
     .catch(error => {
       // 处理登录失败的情况
-      ElMessage.error('用户名或密码错误');
+      ElMessage.error('登录失败！用户名/密码/校验码错误');
       console.error('登录失败:', error);
     });
 }
+
+
+
+function getQR(){
+    // 向后端发请求获取二维码 更新为data.qrCodeBase64
+    data.qrCodeBase64 = "";
+    axios.get(useBaseStore().base_url+'/user/bindingGoogleTwoFactorValidate', {
+        params: {
+          author: data.username
+        },
+        headers: {
+          'Authorization': 'Bearer ' + sessionStorage.getItem('token'), // 如果需要 token 认证
+        }
+      })
+      .then(response => {
+        console.log("res=", response)
+        if (response.data.code !== 200) {
+            console.error('Error:', response.data.msg);
+            ElMessage.error(response.data.msg);
+        } else {
+           data.qrCodeBase64 = response.data.data.img;  // 根据实际的响应结构调整
+           showQRDialog();
+        }
+      })
+      .catch(error => {
+        console.error('获取二维码失败:', error);
+        ElMessage.error('获取二维码失败');
+      });
+}
+
+function showQRDialog() {//token token
+  ElMessageBox({
+    title: '二重验证',
+    message: `<div style="text-align: center;"><img src="${data.qrCodeBase64}" alt="二维码" style="display: inline-block; height: auto; max-width: 100%;"></div>`,
+    dangerouslyUseHTMLString: true,
+    showCancelButton: false,  // 取消关闭按钮
+    showConfirmButton: false, // 取消确认按钮
+    customClass: 'qr-code-dialog'
+  }).catch(() => {
+    // ElMessage.info('二重验证');
+  });
+}
+
 
 function encryptPassword(password) {
   // 加密密码
@@ -146,11 +205,11 @@ function encryptPassword(password) {
   background: white;
 
   .content {
-    padding: 60rem 30rem;
+    padding: 40rem 30rem;
 
     .desc {
       margin-bottom: 60rem;
-      margin-top: 120rem;
+      margin-top: 60rem;
       display: flex;
       align-items: center;
       flex-direction: column;

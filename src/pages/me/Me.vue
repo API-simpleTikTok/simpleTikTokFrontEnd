@@ -468,19 +468,24 @@ export default {
       console.log("this.videos.my.list[index].aweme_id=",this.videos.my.list[index].aweme_id)
 
     // 请求删除
-      axios.delete('http://localhost:3030/user/deleteVideo', {
+      axios.delete(useBaseStore().base_url+'/user/deleteVideo', {
             params: {
                 author: sessionStorage.getItem('tiktokAuthor'),
-                aweme_id: this.videos.my.list[index].aweme_id
-            }
+                awemeId: this.videos.my.list[index].aweme_id
+            },headers: {
+            Authorization: `Bearer ${sessionStorage.getItem('token')}`
+        }
+            
         }).then(response => {
             // 处理注册成功的情况
             console.log("删除成功！")
             this.videos.my.list.splice(index, 1); // 使用 splice 方法移除指定索引的元素
             this.videos.my.total--; 
+            ElMessage.success("删除成功！");
         })
         .catch(error => {
-            console.error('注册失败:', error);
+            console.error('删除失败:', error);
+            ElMessage.error("删除失败");
         });
     },
 

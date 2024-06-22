@@ -11,6 +11,23 @@ import bus, { EVENT_KEY } from '@/utils/bus'
 import ElementPlus from 'element-plus';
 import 'element-plus/dist/index.css';
 import { useBaseStore } from '@/store/pinia'
+
+
+const app = createApp(App);
+app.use(ElementPlus);
+
+
+// 在你的 main.js 或者创建 axios 实例的地方添加
+// const axios = require('axios').default;
+
+// // 仅在开发环境使用
+// if (process.env.NODE_ENV === 'development') {
+//   const https = require('https');
+//   axios.defaults.httpsAgent = new https.Agent({
+//     rejectUnauthorized: false // 忽略 SSL 证书验证
+//   });
+// }
+
 window.isMoved = false
 window.isMuted = true
 window.showMutedNotice = true
@@ -34,7 +51,6 @@ HTMLElement.prototype.addEventListener = new Proxy(HTMLElement.prototype.addEven
   }
 })
 
-const app = createApp(App)
 const pinia = createPinia()
 
 app.use(pinia)  // 确保在使用 store 之前注册 Pinia

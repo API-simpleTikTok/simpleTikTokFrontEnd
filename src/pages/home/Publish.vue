@@ -46,6 +46,7 @@ import BaseFooter from '../../components/BaseFooter.vue'
 import axios from 'axios'
 import * as qiniu from 'qiniu-js'
 import moment from 'moment';
+import { useBaseStore } from '@/store/pinia'; 
 defineOptions({
   name: 'Publish'
 })
@@ -94,7 +95,7 @@ const handleSubmit = async () => {
     // const author = "guwodianying"
     const author = sessionStorage.getItem("tiktokAuthor")
     console.log("author=",author)
-    let url = `http://localhost:3030/user/getUploadToken?author=${author}`;
+    let url = useBaseStore().base_url+`/user/getUploadToken?author=${author}`;
     const res = await axios.get(url,{headers:{
       'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
     }});
@@ -131,7 +132,7 @@ const handleSubmit = async () => {
         //生成时间
         const currentTime = moment().format('YYYY-MM-DD HH:mm:ss');
         console.log(currentTime);
-        axios.post('http://localhost:3030/video/upload', 
+        axios.post(useBaseStore().base_url+'/video/upload', 
             { 
                 title: form.value.title,
                 author: sessionStorage.getItem("tiktokAuthor"), 
