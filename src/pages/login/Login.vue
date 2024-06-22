@@ -109,7 +109,7 @@ function login() {
       console.log("登录成功");
       console.log('token',response.data.data.token);
       sessionStorage.setItem('tiktokAuthor',data.username)
-      sessionStorage.setItem('tiktokPassword',data.password)
+      // sessionStorage.setItem('tiktokPassword',data.password)
       sessionStorage.setItem('token',response.data.data.token)
       const store = useBaseStore(); // 获取 Pinia store 实例
       store.token = response.data.data.token; // 修改 token

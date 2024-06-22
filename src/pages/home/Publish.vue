@@ -94,7 +94,10 @@ const handleSubmit = async () => {
     // const author = "guwodianying"
     const author = sessionStorage.getItem("tiktokAuthor")
     console.log("author=",author)
-    const res = await axios.get(`http://localhost:3030/user/getUploadToken?author=${author}`);
+    let url = `http://localhost:3030/user/getUploadToken?author=${author}`;
+    const res = await axios.get(url,{headers:{
+      'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
+    }});
     console.log("res.data.data=",res.data.data)
     const uploadToken = res.data.data.data.upToken;
       // 配置上传参数
